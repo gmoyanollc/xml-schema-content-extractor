@@ -1,5 +1,5 @@
 # Getting Started
-xml-schema-content-extractor extracts documentation contained in XML Schema and represents it in a JSON format.  Typically, JSON is easier to process in programming environments than XML.
+xml-schema-content-extractor extracts documentation contained in XML Schema and represents it in a JSON format.
 
 ## Project Set-Up
   * Requirement: NodeJS and NodeJS Package Manager (NPM) instances.
