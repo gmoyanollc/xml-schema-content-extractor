@@ -1,0 +1,9 @@
+{ "schemaUri": "http://release.niem.gov/niem/structures/3.0/", "documentation": [],"components": {"ObjectAugmentationPoint": { "type": "element", "documentation": [
+        
+            "An augmentation point for ObjectType"
+        
+    ]},"AssociationAugmentationPoint": { "type": "element", "documentation": [
+        
+            "An augmentation point for AssociationType"
+        
+    ]},,"ObjectType": { "type": "complexType", "documentation": []},"AssociationType": { "type": "complexType", "documentation": []},"MetadataType": { "type": "complexType", "documentation": []},"AugmentationType": { "type": "complexType", "documentation": []}}}

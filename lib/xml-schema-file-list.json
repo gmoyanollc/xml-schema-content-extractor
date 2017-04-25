@@ -1,0 +1,7 @@
+{
+  "schemaSourceFileList": [
+    "niem/niem-core/3.0/niem-core.xsd",
+    "niem/structures/3.0/structures.xsd",
+    "niem/domains/surfaceTransportation/3.2/st.xsd"
+  ]
+}

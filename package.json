@@ -1,0 +1,13 @@
+{
+  "name": "xml-schema-content-extractor",
+  "version": "1.0.0",
+  "description": "extract content from XML Schema and represent in JSON",
+  "main": "app.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "[George Moyano] (https://onename.com/gmoyano)",
+  "license": "MIT"
+}
