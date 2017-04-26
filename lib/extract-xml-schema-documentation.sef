@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://ns.saxonica.com/xslt/export" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vv="http://saxon.sf.net/generated-variable" xmlns:java-type="http://saxon.sf.net/java-type" version="20" packageVersion="1" saxonVersion="9.7.0.18" timeStamp="2017-04-21T14:57:32.707-07:00">
+<package xmlns="http://ns.saxonica.com/xslt/export" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vv="http://saxon.sf.net/generated-variable" xmlns:java-type="http://saxon.sf.net/java-type" version="30" packageVersion="1" saxonVersion="9.7.0.18" timeStamp="2017-04-26T14:36:19.184-07:00">
  <co id="0" binds="0 0 0 0 0 0">
   <mode onNo="TC" flags="dW" patternSlots="0">
-   <templateRule prec="0" prio="-0.25" seq="4" rank="1" minImp="0" slots="0" flags="os" line="64" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl">
+   <templateRule prec="0" prio="-0.25" seq="4" rank="1" minImp="0" slots="0" flags="os" line="65" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl">
     <p.nodeTest role="match" test="*:complexType"/>
-    <sequence role="action" vn="20" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="67">
+    <sequence role="action" vn="31" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform fn=http://www.w3.org/2005/xpath-functions oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="68">
      <valueOf flags="S">
       <str val="&#34;"/>
      </valueOf>
@@ -18,7 +18,7 @@
      <valueOf>
       <str val="&#34;: { &#34;type&#34;: &#34;complexType&#34;, &#34;documentation&#34;: ["/>
      </valueOf>
-     <applyT line="70" bSlot="0">
+     <applyT line="71" bSlot="0">
       <slash role="select">
        <axis name="child" nodeTest="*:annotation"/>
        <axis name="child" nodeTest="*:documentation"/>
@@ -27,7 +27,7 @@
      <valueOf flags="S">
       <str val="]}"/>
      </valueOf>
-     <choose line="72">
+     <choose line="73">
       <fn name="exists">
        <axis name="following-sibling" nodeTest="*:complexType"/>
       </fn>
@@ -37,9 +37,9 @@
      </choose>
     </sequence>
    </templateRule>
-   <templateRule prec="0" prio="-0.25" seq="3" rank="1" minImp="0" slots="0" flags="os" line="53" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl">
+   <templateRule prec="0" prio="-0.25" seq="3" rank="1" minImp="0" slots="0" flags="os" line="54" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl">
     <p.nodeTest role="match" test="*:element"/>
-    <sequence role="action" vn="20" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="56">
+    <sequence role="action" vn="31" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform fn=http://www.w3.org/2005/xpath-functions oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="57">
      <valueOf flags="S">
       <str val="&#34;"/>
      </valueOf>
@@ -53,13 +53,13 @@
      <valueOf>
       <str val="&#34;: { &#34;type&#34;: &#34;element&#34;, &#34;documentation&#34;: ["/>
      </valueOf>
-     <applyT line="59" flags="i" bSlot="1">
+     <applyT line="60" flags="i" bSlot="1">
       <axis role="select" name="child" nodeTest="node()"/>
      </applyT>
      <valueOf flags="S">
       <str val="]}"/>
      </valueOf>
-     <choose line="61">
+     <choose line="62">
       <fn name="exists">
        <axis name="following-sibling" nodeTest="element()"/>
       </fn>
@@ -69,25 +69,30 @@
      </choose>
     </sequence>
    </templateRule>
-   <templateRule prec="0" prio="-0.25" seq="2" rank="1" minImp="0" slots="0" flags="os" line="45" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl">
+   <templateRule prec="0" prio="-0.25" seq="2" rank="1" minImp="0" slots="0" flags="os" line="46" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl">
     <p.nodeTest role="match" test="*:documentation"/>
-    <sequence role="action" vn="20" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="48">
+    <sequence role="action" vn="31" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform fn=http://www.w3.org/2005/xpath-functions oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="49">
      <valueOf flags="S">
       <str val="&#34;"/>
      </valueOf>
      <valueOf>
-      <fn name="normalize-space">
-       <cvUntyped to="xs:string">
-        <data>
-         <dot type="*:documentation"/>
-        </data>
-       </cvUntyped>
+      <fn name="replace">
+       <fn name="normalize-space">
+        <cvUntyped to="xs:string">
+         <data>
+          <dot type="*:documentation"/>
+         </data>
+        </cvUntyped>
+       </fn>
+       <str val="&#34;"/>
+       <str val="\\&#34;"/>
+       <str val=""/>
       </fn>
      </valueOf>
      <valueOf flags="S">
       <str val="&#34;"/>
      </valueOf>
-     <choose line="50">
+     <choose line="51">
       <fn name="exists">
        <axis name="following-sibling" nodeTest="element()"/>
       </fn>
@@ -97,9 +102,9 @@
      </choose>
     </sequence>
    </templateRule>
-   <templateRule prec="0" prio="-0.25" seq="1" rank="1" minImp="0" slots="0" flags="os" line="29" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl">
+   <templateRule prec="0" prio="-0.25" seq="1" rank="1" minImp="0" slots="0" flags="os" line="30" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl">
     <p.nodeTest role="match" test="*:schema"/>
-    <sequence role="action" vn="20" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="31">
+    <sequence role="action" vn="31" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform fn=http://www.w3.org/2005/xpath-functions oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="32">
      <valueOf>
       <str val="{ &#34;schemaUri&#34;: &#34;"/>
      </valueOf>
@@ -122,7 +127,7 @@
      <valueOf>
       <str val="&#34;, &#34;documentation&#34;: ["/>
      </valueOf>
-     <applyT line="34" bSlot="2">
+     <applyT line="35" bSlot="2">
       <slash role="select">
        <axis name="child" nodeTest="*:annotation"/>
        <axis name="child" nodeTest="*:documentation"/>
@@ -134,13 +139,13 @@
      <valueOf>
       <str val="&#34;components&#34;: {"/>
      </valueOf>
-     <applyT line="38" bSlot="3">
+     <applyT line="39" bSlot="3">
       <axis role="select" name="child" nodeTest="*:element"/>
      </applyT>
      <valueOf flags="S">
       <str val=","/>
      </valueOf>
-     <applyT line="40" bSlot="4">
+     <applyT line="41" bSlot="4">
       <axis role="select" name="child" nodeTest="*:complexType"/>
      </applyT>
      <valueOf flags="S">
@@ -148,9 +153,9 @@
      </valueOf>
     </sequence>
    </templateRule>
-   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="os" line="23" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl">
+   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="os" line="24" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl">
     <p.nodeTest role="match" test="attribute()"/>
-    <copy role="action" vn="20" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="25" flags="in">
+    <copy role="action" vn="31" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform fn=http://www.w3.org/2005/xpath-functions oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="26" flags="in">
      <applyT role="content" bSlot="5">
       <sequence role="select">
        <axis name="attribute" nodeTest="attribute()"/>
@@ -159,9 +164,9 @@
      </applyT>
     </copy>
    </templateRule>
-   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="os" line="23" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl">
+   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="os" line="24" module="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl">
     <p.nodeTest role="match" test="( element() | text() | comment() | processing-instruction() )"/>
-    <copy role="action" vn="20" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="25" flags="in">
+    <copy role="action" vn="31" baseUri="file:/home/g/g-dev/soi-messaging/soi-track/src/main/resources/tool-bin/xml-schema-content-extractor/./lib/extract-xml-schema-documentation.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform fn=http://www.w3.org/2005/xpath-functions oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="26" flags="in">
      <applyT role="content" bSlot="5">
       <sequence role="select">
        <axis name="attribute" nodeTest="attribute()"/>
@@ -175,9 +180,9 @@
  <overridden/>
  <output>
   <property name="indent" value="yes"/>
-  <property name="{http://saxon.sf.net/}stylesheet-version" value="20"/>
+  <property name="{http://saxon.sf.net/}stylesheet-version" value="30"/>
   <property name="method" value="text"/>
  </output>
  <decimalFormat decimal-separator="46" grouping-separator="44" digit="35" minus-sign="45" percent="37" per-mille="8240" zero-digit="48" exponent-separator="101" pattern-separator="59" infinity="Infinity" NaN="NaN"/>
 </package>
-<?Σ 65396d62?>
+<?Σ 4bbe372?>

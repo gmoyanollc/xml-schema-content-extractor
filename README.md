@@ -20,6 +20,11 @@ A sample JSON listing is provided in folder `./lib` for the sample NIEM XML Sche
 Now simply enter:
   `node app.js`
 
+## Compile XSLT Change
+XSLT changes may be compiled.  To compile a stylesheet change, run:
+  `bash ./lib/compile-xslt.sh`
+(Note: The current implementation applies a compiled stylesheet although it may be modified to apply an uncompiled stylesheet.)
+
 # Authoritative Sources
 
 The authoritative and complete work is maintained on [GitHub](https://github.com/gmoyanollc/xml-schema-content-extractor).

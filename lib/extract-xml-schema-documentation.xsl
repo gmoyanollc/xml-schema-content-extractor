@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:fn="http://www.w3.org/2005/xpath-functions"
   xmlns:oxd="http://www.oxygenxml.com/ns/doc/xsl"
   exclude-result-prefixes="xs"
-  version="2.0">
+  version="3.0">
   
   <xsl:output indent="yes" method="text"/>
   
   <oxd:doc scope="stylesheet">
     <oxd:desc>
       <oxd:p><oxd:b>name: </oxd:b>extract-xml-schema-documentation</oxd:p>
-      <oxd:p><oxd:b>version: </oxd:b>0.1.1</oxd:p>
+      <oxd:p><oxd:b>version: </oxd:b>0.1.2</oxd:p>
       <oxd:p><oxd:b>description: </oxd:b>Extract xml schema documentation and output as a JSON structure.</oxd:p>
       <oxd:p><oxd:b>main: </oxd:b>extract-xml-schema-documentation.xsl</oxd:p>
       <oxd:p><oxd:b>author: </oxd:b>[George Moyano] (https://onename.com/gmoyano)</oxd:p>
@@ -45,7 +46,7 @@
   <xsl:template match="*:documentation">
     <!--<xsl:text>{"documentation": "</xsl:text>-->
     <xsl:text>"</xsl:text>
-    <xsl:value-of select="normalize-space(.)" />
+    <xsl:value-of select="fn:replace(normalize-space(.), '&quot;', '\\&quot;')"/>
     <xsl:text>"</xsl:text>
     <xsl:if test="following-sibling::*">,</xsl:if>
   </xsl:template>
