@@ -1,0 +1,25 @@
+{
+  "schemaSourceFileList": [
+    "extension/FeatureObservation.xsd",
+    "extension/FeatureObserver.xsd",
+    "extension/ObservedEvent.xsd",
+    "extension/ObservedFacility.xsd",
+    "extension/ObservedMilitaryUnit.xsd",
+    "extension/ObservedPlatformSystem.xsd",
+    "extension/ObservedWeapon.xsd",
+    "extension/TSOA-Track.xsd",
+    "niem/codes/jc3iedm/3.1/jc3iedm.xsd",
+    "niem/codes/nga_datum/3.0/nga_datum.xsd",
+    "niem/codes/nga_genc/3.0/nga_genc.xsd",
+    "niem/codes/unece_rec20/3.0/unece_rec20-misc.xsd",
+    "niem/domains/cbrn/3.2/cbrn.xsd",
+    "niem/domains/intelligence/3.2/intelligence.xsd",
+    "niem/domains/jxdm/5.2/jxdm.xsd",
+    "niem/domains/maritime/3.2/maritime.xsd",
+    "niem/domains/militaryOperations/3.2/mo.xsd",
+    "niem/domains/militaryOperationsRestricted/3.2/moms.xsd",
+    "niem/domains/screening/3.2/screening.xsd",
+    "niem/niem-core/3.0/niem-core.xsd",
+    "niem/structures/3.0/structures.xsd"
+  ]
+}
