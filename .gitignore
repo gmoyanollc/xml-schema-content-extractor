@@ -1,2 +1,7 @@
-data/**
+*.gz
+*.zip
+.vscode/
+node_modules/
 xml-schema-content-extractorProject.xpr
+data
+data.forge
