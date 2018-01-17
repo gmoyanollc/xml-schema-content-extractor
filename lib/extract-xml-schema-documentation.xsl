@@ -59,7 +59,8 @@
     </xsl:choose>
     <!--<xsl:text>{"documentation": "</xsl:text>-->
     <xsl:text>"</xsl:text>
-    <xsl:value-of select="fn:replace(normalize-space(.), '&quot;', '\\&quot;')"/>
+    <!--<xsl:value-of select="fn:replace(normalize-space(.), '&quot;', '\\&quot;')"/> -->
+    <xsl:value-of select="fn:replace(fn:replace(normalize-space(.),'\\', '\\\\'), '&quot;', '\\&quot;')"/>
     <xsl:text>"</xsl:text>
     <xsl:choose>
       <xsl:when test="following-sibling::*:documentation">, </xsl:when>
