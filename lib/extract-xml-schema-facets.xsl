@@ -178,7 +178,7 @@
     </xsl:choose>-->
   </xsl:template>
 
-  <xsl:template match="*:complexType/*:attribute">
+  <xsl:template match="*:complexType/*:attribute | *:element/*:attribute">
     <xsl:if test="preceding-sibling::*">, </xsl:if>
     <xsl:text>, "attributes": { </xsl:text>
     <xsl:text>"</xsl:text>
