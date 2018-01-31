@@ -3,10 +3,6 @@ console.log("\nSaxonJS 1.0.0 does not support NodeJS, planned for future release
 var exec = require("child_process").exec;
 var fs = require("fs"), path = require("path");
 var SCRIPT_FILE = "./bin/extract-content.sh"
-//var OUTPUT_DIR = "./output/";
-
-//var fileBuffer = fs.readFileSync("./lib/xml-schema-file-list.json");
-//var xmlSchemaFileList = JSON.parse(fileBuffer);
 
 function writeFile (xmlSchemaFile, targetDir, stdout) {
 
@@ -19,10 +15,11 @@ function writeFile (xmlSchemaFile, targetDir, stdout) {
     fs.mkdirSync(dirName);
     return true;
 
-    throw ("ERROR: Can not create dirPath: " + this.targetSchemaBaseDir + this.targetSchemaFileDestination);
+    throw ("  [ERROR] can not create dirPath: " + this.targetSchemaBaseDir + this.targetSchemaFileDestination);
   };
 
-  var xmlSchemaFileJsonName = xmlSchemaFile.substring(0, xmlSchemaFile.lastIndexOf('.')) + "-documentation.json";
+  //var xmlSchemaFileJsonName = xmlSchemaFile.substring(0, xmlSchemaFile.lastIndexOf('.')) + "-content.json";
+  var xmlSchemaFileJsonName = xmlSchemaFile.substring(xmlSchemaFile.lastIndexOf('/') + 1) + "-content.json";
   console.log("  [INFO] write: " + targetDir + xmlSchemaFileJsonName);
   if ( dirPathExists(targetDir + xmlSchemaFileJsonName) ) {
     fs.writeFileSync(targetDir + xmlSchemaFileJsonName, stdout);
@@ -32,11 +29,16 @@ function writeFile (xmlSchemaFile, targetDir, stdout) {
 function extractContent (xmlSchemaFile, targetDir) {
   console.log("  [INFO] start: " + xmlSchemaFile);
   //exec("bash ./bin/extract-content.sh " + xmlSchemaFile, function(error, stdout, stderr) {
-    exec("bash " + SCRIPT_FILE + " " + xmlSchemaFile, function(error, stdout, stderr) {
-      if ( error != null) console.log("  ERROR: " + error);
-      if ( stderr != "" ) console.log("  STANDARD OUTPUT ERROR: " + stderr );
-      writeFile(xmlSchemaFile, targetDir, stdout);
-      console.log("  [INFO] complete: " + xmlSchemaFile);
+    exec("bash " + SCRIPT_FILE + " " + xmlSchemaFile, {maxBuffer: 1024 * 10000}, function(error, stdout, stderr) {
+      if ( error != null) 
+        console.log("  [ERROR] " + error)
+      else
+        if ( stderr != "" ) 
+          console.log("  [ERROR] " + stderr )
+        else {
+          writeFile(xmlSchemaFile, targetDir, stdout);
+          console.log("  [INFO] completed " + xmlSchemaFile);
+        }
     });
 }
 
@@ -48,7 +50,7 @@ function getSourceFileList (sourceFile) {
       return (sourceFileBuffer);
     } catch (error) {
       console.log(error);
-      console.log("  Unable to read file, treating source file as an XML Schema file.");
+      console.log("  [INFO] unable to read file, treating source file as an XML Schema file.");
     }
   }
 
@@ -58,11 +60,11 @@ function getSourceFileList (sourceFile) {
     return(sourceFileList);
   } catch (error) {
     console.log(error);
-    console.log("  Unable to parse as JSON, treating source file as an XML Schema file.")
+    console.log("  [INFO] unable to parse as JSON, treating source file as an XML Schema file.")
   }
 }
 
-function startApp () {
+function startApp (argv) {
   var sourceFile = argv[0];
   var targetDir = argv[1];
   var sourceFileList = getSourceFileList(sourceFile);
@@ -75,34 +77,44 @@ function startApp () {
 
   } else
     extractContent(sourceFile, targetDir);
-  console.log("  done.")
 }
  
 function help() {
   console.log("\n  usage: " + process.argv[0] + ' ' + process.argv[1] + " source-file target-dir");
-  console.log("\n  example: node app.js source\\file.xsd target\\dir\\\n");
+  console.log("\n  example: node app.js source\/file.xsd target\/dir\/\n");
 }
 
-var argv = process.argv.slice(2);
-if (argv.length == 2) {
-  
-  //argv.forEach( function (argvItem) {
+function hasValidArgs(argv) {
+
+  if (argv.length == 2) {
+    //argv.forEach( function (argvItem) {
     fs.access(argv[0], function (err) {
       if (err) {
         console.log(err);
-        help();
+        return(false);
       }
     })
-  //})
+    //})
+    fs.access(SCRIPT_FILE, function (err) {
+      if (err) {
+        console.log(err);
+        console.log("  \n[ERROR] unable to access SCRIPT_FILE: " + SCRIPT_FILE);
+        return(false);
+      }
+    })
+    
 
-  fs.access(SCRIPT_FILE, function (err) {
-    if (err) {
-      console.log(err);
-      console.log("  ERROR: unable to access SCRIPT_FILE: " + SCRIPT_FILE);
-    }
-    else
-      startApp();
-  })
+  } else {
+    console.log("  \n[ERROR] missing argument");
+    return(false);
+  };
+  return(true);
+}
 
-} else
+var argv = process.argv.slice(2);
+if (hasValidArgs(argv))
+  startApp(argv)
+else {
   help();
+  process.exit(-1);
+};
