@@ -10,10 +10,10 @@
   
   <oxd:doc scope="stylesheet">
     <oxd:desc>
-      <oxd:p><oxd:b>name: </oxd:b>extract-xml-schema-documentation</oxd:p>
-      <oxd:p><oxd:b>version: </oxd:b>0.1.2</oxd:p>
-      <oxd:p><oxd:b>description: </oxd:b>Extract xml schema documentation and output as a JSON structure.</oxd:p>
-      <oxd:p><oxd:b>main: </oxd:b>extract-xml-schema-documentation.xsl</oxd:p>
+      <oxd:p><oxd:b>name: </oxd:b>extract-xml-schema-content</oxd:p>
+      <oxd:p><oxd:b>version: </oxd:b>0.1.0</oxd:p>
+      <oxd:p><oxd:b>description: </oxd:b>Extract xml schema content missed by JAXB and output as a JSON structure.</oxd:p>
+      <oxd:p><oxd:b>main: </oxd:b>extract-xml-schema-content.xsl</oxd:p>
       <oxd:p><oxd:b>author: </oxd:b>[George Moyano] (https://onename.com/gmoyano)</oxd:p>
       <oxd:p><oxd:b>license: </oxd:b>MIT</oxd:p>
       <oxd:p><oxd:b>dependencies: </oxd:b>none</oxd:p>
@@ -28,24 +28,25 @@
   </xsl:template>
   
   <xsl:template match="*:documentation">
+    <!--<xsl:if test="preceding-sibling::*:documentation">, </xsl:if>-->
     <xsl:choose>
-      <xsl:when test="preceding-sibling::*:documentation"/>
-      <xsl:otherwise>"documentation": [ </xsl:otherwise>
+      <xsl:when test="not(preceding-sibling::*:documentation)">"documentation": [ </xsl:when>
+      <xsl:otherwise>, </xsl:otherwise>
     </xsl:choose>
     <xsl:text>"</xsl:text>
     <xsl:value-of select="fn:replace(fn:replace(normalize-space(.),'\\', '\\\\'), '&quot;', '\\&quot;')"/>
     <xsl:text>"</xsl:text>
-    <xsl:choose>
+    <!--<xsl:choose>
       <xsl:when test="following-sibling::*:documentation">, </xsl:when>
       <xsl:otherwise>] </xsl:otherwise>
-    </xsl:choose>
+    </xsl:choose>-->
+    <xsl:if test="not(following-sibling::*:documentation)"> ]</xsl:if>
   </xsl:template>
   
   <xsl:template match="*:enumeration">
     <xsl:if test="not(preceding-sibling::*)">"enumeration": [ </xsl:if> 
     <xsl:text>{ "value": </xsl:text>
     <xsl:value-of select="./@value"/>
-    <!--<xsl:text>, "documentation": </xsl:text>-->
     <xsl:if test=" descendant::*">, </xsl:if>
     <xsl:apply-templates/>
     <xsl:text> } </xsl:text>
@@ -56,7 +57,6 @@
   </xsl:template>
 
   <xsl:template match="*:fractionDigits">
-    <!--<xsl:if test="preceding-sibling::*">, </xsl:if>-->
     <xsl:text>"fractionDigits": </xsl:text>
     <xsl:value-of select="./@value"/>
     <xsl:choose>
@@ -65,7 +65,6 @@
   </xsl:template>
   
   <xsl:template match="*:totalDigits">
-    <!--<xsl:if test="preceding-sibling::*">, </xsl:if>-->
     <xsl:text>"totalDigits": </xsl:text>
     <xsl:value-of select="./@value"/>
     <xsl:choose>
@@ -140,42 +139,15 @@
   </xsl:template>
   
   <xsl:template match="*:restriction">
-    <!--<xsl:if test="not(preceding-sibling::*)">"restrictions": [ </xsl:if>-->
-    <!--<xsl:if test="count(../preceding-sibling::*)=0">"restrictions": [ </xsl:if>-->
-    <!--<xsl:text>{ </xsl:text>-->
-    <!--<xsl:if test="count(../preceding-sibling::*)=0"> { </xsl:if>-->
     <xsl:if test="preceding-sibling::*">, </xsl:if>
     <xsl:apply-templates select="./*"/>
-    <!--<xsl:text> } </xsl:text>-->
-    <!--<xsl:choose>-->
-      <!--<xsl:when test="position()!=last()">, </xsl:when>-->
-      <!--<xsl:otherwise> ] </xsl:otherwise>-->
-    <!--</xsl:choose>-->
-    <!--<xsl:if test="position()!=last()">, </xsl:if>-->
-    <!--<xsl:if test="position()=last()">] </xsl:if>-->
-    <!--<xsl:if test="count(../preceding-sibling::*)+1=count(../../*:simpleType)">] </xsl:if>-->
-    <!--<xsl:if test="not(parent::*/following-sibling::*)">] </xsl:if>-->
-    <!--<xsl:if test="not(parent::*/following-sibling::*)">} </xsl:if>-->
   </xsl:template>
   
   <xsl:template match="*:simpleType">
-    <!--<xsl:apply-templates select="descendant::*:simpleType"/>-->
-    <!--<xsl:apply-templates select="./*:restriction"/>-->
     <xsl:if test="not(descendant::*:simpleType)"><xsl:text> { </xsl:text></xsl:if>
-    <!--<xsl:if test="preceding-sibling::*">, </xsl:if>-->
-    <!--<xsl:text> { </xsl:text>-->
     <xsl:apply-templates/>
-    <!--<xsl:choose>-->
-      <!--<xsl:when test="position()!=last()">, </xsl:when>-->
     <xsl:if test="not(descendant::*:simpleType)"><xsl:text> }</xsl:text></xsl:if>
-      <xsl:if test="following-sibling::*">, </xsl:if>
-      <!--<xsl:otherwise> ] </xsl:otherwise>-->
-    <!--</xsl:choose>-->
-    <!--<xsl:text> } </xsl:text>-->
-<!--    <xsl:choose>
-    <xsl:when test="not(following-sibling::*)"><xsl:text> ] </xsl:text></xsl:when>
-      <xsl:otherwise><xsl:text>, </xsl:text></xsl:otherwise>
-    </xsl:choose>-->
+    <xsl:if test="following-sibling::*">, </xsl:if>
   </xsl:template>
 
   <xsl:template match="*:complexType/*:attribute | *:element/*:attribute">
@@ -183,13 +155,16 @@
     <xsl:text>, "attributes": { </xsl:text>
     <xsl:text>"</xsl:text>
     <xsl:value-of select="./@name"/>
-    <xsl:text>": { "facets": [ </xsl:text>
-    <!--<xsl:if test="./*:simpleType">-->
-      <!--<xsl:text>{ </xsl:text>-->
-      <xsl:apply-templates select="./*:simpleType"/>
-      <xsl:text> ] </xsl:text>
-      <!--<xsl:text>} </xsl:text>-->
-    <!--</xsl:if>-->
+    <xsl:text>": </xsl:text>
+    <xsl:if test="*:annotation/*:documentation">
+      <xsl:text>{ </xsl:text>
+      <xsl:apply-templates select="./*:annotation/*:documentation"/>
+      <xsl:text>}, </xsl:text>
+    </xsl:if>
+    <!--<xsl:text>": { "facets": [ </xsl:text>-->
+    <xsl:text>{ "facets": [ </xsl:text>
+    <xsl:apply-templates select="./*:simpleType"/>
+    <xsl:text> ] </xsl:text>
     <xsl:text>} </xsl:text>
     <xsl:text>} </xsl:text>
   </xsl:template>
@@ -202,12 +177,15 @@
         <xsl:value-of select="./@name"/></xsl:when>
       <xsl:otherwise>anonymousType</xsl:otherwise>
     </xsl:choose>
-    <xsl:text>": { "type": "complexType", "documentation": </xsl:text>
+    <!--<xsl:text>": { "type": "complexType", "documentation": </xsl:text>
     <xsl:choose>
       <xsl:when test="*:annotation/*:documentation">
         <xsl:apply-templates select="./*:annotation/*:documentation"/></xsl:when>
       <xsl:otherwise>[] </xsl:otherwise>
-    </xsl:choose>
+    </xsl:choose>-->
+    <xsl:text>": { "type": "complexType"</xsl:text>
+    <xsl:if test="*:annotation/*:documentation">, </xsl:if>
+    <xsl:apply-templates select="./*:annotation/*:documentation"/>
     <xsl:text>} </xsl:text>
   </xsl:template>
   
@@ -215,46 +193,27 @@
     <xsl:if test="preceding-sibling::*">, </xsl:if>
     <xsl:text>"</xsl:text>
     <xsl:value-of select="./@name"/>
-    <xsl:text>": { "type": "element", "facets": { </xsl:text>
-    <!--<xsl:choose>
-      <xsl:when test="./*:simpleType">-->
-        <xsl:apply-templates select="./*:simpleType"/>
-        <!--<xsl:text>} </xsl:text>-->
-      <!--</xsl:when>
-      <xsl:otherwise>-->
-        <!--<xsl:text>}, "attributes": { </xsl:text>-->
-    <xsl:text>} </xsl:text>
-        <!--<xsl:choose>
-          <xsl:when test="./*:complexType/*:attribute">-->
-            <xsl:apply-templates select="./*:complexType/*:attribute"/>
-          <!--</xsl:when>
-        </xsl:choose>-->
-        <!--<xsl:text>} </xsl:text>-->
-      <!--</xsl:otherwise>
-    </xsl:choose>-->
-    <!--<xsl:text>} </xsl:text>-->
+    <xsl:text>": { "type": "element"</xsl:text>
+    <xsl:if test="*:annotation/*:documentation">, </xsl:if>
+    <xsl:apply-templates select="./*:annotation/*:documentation"/>
+    <xsl:text>, "facets": [ </xsl:text>
+    <xsl:apply-templates select="./*:simpleType"/>
+    <xsl:text>] </xsl:text>
+    <xsl:apply-templates select="./*:complexType/*:attribute"/>
     <xsl:text>} </xsl:text>
   </xsl:template>
   
   <xsl:template match="*:schema">
-    <xsl:text>{ "schemaUri": "</xsl:text>
+    <xsl:text>{ "schemaUri": </xsl:text>
+    <xsl:text>"</xsl:text>
     <xsl:value-of select="//@targetNamespace"/>
-    <xsl:text>", "documentation": [</xsl:text>
+    <xsl:text>"</xsl:text>
+    <xsl:if test="*:annotation/*:documentation">, </xsl:if>
     <xsl:apply-templates select="*:annotation/*:documentation"/>
-    <xsl:text>],</xsl:text>
-    <xsl:text>"components": {</xsl:text>
-    <!--<xsl:if test="*:simpleType">-->
+    <xsl:text>, "components": { </xsl:text>
       <xsl:apply-templates select="*:simpleType"/>
-      <!--<xsl:text>, </xsl:text>-->
-    <!--</xsl:if>-->
-    <!--<xsl:if test="*:complexType">-->
       <xsl:apply-templates select="*:complexType"/>
-      <!--<xsl:text>, </xsl:text>-->
-    <!--</xsl:if>-->
-    <!--<xsl:if test="*:element">-->
       <xsl:apply-templates select="*:element"/>
-      <!--<xsl:text>, </xsl:text>-->
-    <!--</xsl:if>-->
     <xsl:text>} </xsl:text>
     <xsl:text>}</xsl:text>
   </xsl:template>
