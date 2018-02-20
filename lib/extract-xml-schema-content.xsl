@@ -140,6 +140,11 @@
   
   <xsl:template match="*:restriction">
     <xsl:if test="preceding-sibling::*">, </xsl:if>
+    <xsl:if test="@base">
+      <xsl:text>"baseType": "</xsl:text>
+      <xsl:value-of select="./@base"/>
+      <xsl:text>", </xsl:text>
+    </xsl:if>
     <xsl:apply-templates select="./*"/>
   </xsl:template>
   
