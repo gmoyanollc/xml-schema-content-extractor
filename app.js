@@ -50,7 +50,7 @@ function getSourceFileList (sourceFile) {
       return (sourceFileBuffer);
     } catch (error) {
       console.log(error);
-      console.log("  [INFO] unable to read file, treating source file as an XML Schema file.");
+      console.log("  [INFO] unable to read file, will ignore and try source file as an XML Schema file.");
     }
   }
 
@@ -60,7 +60,7 @@ function getSourceFileList (sourceFile) {
     return(sourceFileList);
   } catch (error) {
     console.log(error);
-    console.log("  [INFO] unable to parse as JSON, treating source file as an XML Schema file.")
+    console.log("  [INFO] unable to parse as JSON, will ignore and try source file as an XML Schema file.")
   }
 }
 
