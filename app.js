@@ -49,7 +49,7 @@ function getSourceFileList (sourceFile) {
       var sourceFileBuffer = fs.readFileSync(sourceFile);
       return (sourceFileBuffer);
     } catch (error) {
-      console.log(error);
+      console.log("  [WARNING] " + error.message);
       console.log("  [INFO] unable to read file, will ignore and try source file as an XML Schema file.");
     }
   }
@@ -59,7 +59,7 @@ function getSourceFileList (sourceFile) {
     var sourceFileList = JSON.parse(sourceFileBuffer);
     return(sourceFileList);
   } catch (error) {
-    console.log(error);
+    console.log("  [WARNING] " + error.message);
     console.log("  [INFO] unable to parse as JSON, will ignore and try source file as an XML Schema file.")
   }
 }
