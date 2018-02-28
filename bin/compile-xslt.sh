@@ -7,7 +7,7 @@ if [ ${#} -eq 1 ] ; then
   XSL_FILE_ARG=${1}
   echo XSL_FILE_ARG=${XSL_FILE_ARG}
   echo XML_TRANSFORMER=${XML_TRANSFORMER}
-  if [ -n "${XSL_FILE_ARG}" ]; then
+  if [ -e "${XSL_FILE_ARG}" ]; then
     XSL=${XSL_FILE_ARG};
     if [ -n "${XML_TRANSFORMER}" ]; then
       #java -jar /opt/saxonica/SaxonEE9-7-0-18J/saxon9ee.jar -xsl:./lib/extract-xml-schema-documentation.xsl -export:./lib/extract-xml-schema-documentation.sef -nogo

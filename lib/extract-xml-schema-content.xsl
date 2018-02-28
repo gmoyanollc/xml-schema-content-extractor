@@ -46,7 +46,13 @@
   <xsl:template match="*:enumeration">
     <xsl:if test="not(preceding-sibling::*)">"enumeration": [ </xsl:if> 
     <xsl:text>{ "value": </xsl:text>
+    <xsl:if test="contains(../@base, 'string')">
+      <xsl:text>"</xsl:text>
+    </xsl:if>
     <xsl:value-of select="./@value"/>
+    <xsl:if test="contains(../@base, 'string')">
+      <xsl:text>"</xsl:text>
+    </xsl:if>
     <xsl:if test=" descendant::*">, </xsl:if>
     <xsl:apply-templates/>
     <xsl:text> } </xsl:text>
@@ -139,13 +145,32 @@
   </xsl:template>
   
   <xsl:template match="*:restriction">
-    <xsl:if test="preceding-sibling::*">, </xsl:if>
+    <xsl:if test="preceding-sibling::*:restriction">, </xsl:if>
     <xsl:if test="@base">
       <xsl:text>"baseType": "</xsl:text>
       <xsl:value-of select="./@base"/>
       <xsl:text>", </xsl:text>
     </xsl:if>
     <xsl:apply-templates select="./*"/>
+  </xsl:template>
+  
+  <xsl:template match="/*:schema/*:simpleType">
+    <xsl:if test="preceding-sibling::*:simpleType">, </xsl:if>
+    <xsl:text>"</xsl:text>
+    <xsl:choose>
+      <xsl:when test="./@name">
+        <xsl:value-of select="./@name"/></xsl:when>
+      <xsl:otherwise>anonymousType</xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>": { "type": "simpleType"</xsl:text>
+    <xsl:if test="*:annotation/*:documentation">, </xsl:if>
+    <xsl:apply-templates select="./*:annotation/*:documentation"/>
+    <xsl:text>, "facets": [ </xsl:text>
+    <xsl:text> { </xsl:text>
+    <xsl:apply-templates select="./*:restriction"/>
+    <xsl:text> }</xsl:text>
+    <xsl:text>] </xsl:text>
+    <xsl:text>} </xsl:text>
   </xsl:template>
   
   <xsl:template match="*:simpleType">
@@ -175,7 +200,8 @@
   </xsl:template>
   
   <xsl:template match="*:complexType">
-    <xsl:if test="preceding-sibling::*:complexType">, </xsl:if>
+    <!--<xsl:if test="preceding-sibling::*:complexType">, </xsl:if>-->
+    <xsl:if test="preceding-sibling::*">, </xsl:if>
     <xsl:text>"</xsl:text>
     <xsl:choose>
       <xsl:when test="./@name">
