@@ -20,9 +20,9 @@ function writeFile (xmlSchemaFile, targetDir, stdout) {
 
   //var xmlSchemaFileJsonName = xmlSchemaFile.substring(0, xmlSchemaFile.lastIndexOf('.')) + "-content.json";
   var xmlSchemaFileJsonName = xmlSchemaFile.substring(xmlSchemaFile.lastIndexOf('/') + 1) + "-content.json";
-  console.log("  [INFO] write: " + targetDir + xmlSchemaFileJsonName);
-  if ( dirPathExists(targetDir + xmlSchemaFileJsonName) ) {
-    fs.writeFileSync(targetDir + xmlSchemaFileJsonName, stdout);
+  console.log("  [INFO] write: " + targetDir + '/' + xmlSchemaFileJsonName);
+  if ( dirPathExists(targetDir + '/' + xmlSchemaFileJsonName) ) {
+    fs.writeFileSync(targetDir + '/' + xmlSchemaFileJsonName, stdout);
   };
 }
 
@@ -81,7 +81,7 @@ function startApp (argv) {
  
 function help() {
   console.log("\n  usage: " + process.argv[0] + ' ' + process.argv[1] + " source-file target-dir");
-  console.log("\n  example: node app.js source\/file.xsd target\/dir\/\n");
+  console.log("\n  example: node app.js source\/file.xsd target\/dir\n");
 }
 
 function hasValidArgs(argv) {
