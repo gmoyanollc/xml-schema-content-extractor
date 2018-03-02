@@ -26,6 +26,16 @@ function writeFile (xmlSchemaFile, targetDir, stdout) {
   };
 }
 
+function validateJson (jsonString, xmlSchemaFile) {
+  try {
+    JSON.parse(jsonString);
+    console.log("  [INFO] extraction JSON format is valid for: " + xmlSchemaFile);
+  } catch (error) {
+    console.log("  [ERROR] extraction JSON format is invalid for: " + xmlSchemaFile);
+    console.log(error.message)
+  }
+}
+
 function extractContent (xmlSchemaFile, targetDir) {
   console.log("  [INFO] start: " + xmlSchemaFile);
   //exec("bash ./bin/extract-content.sh " + xmlSchemaFile, function(error, stdout, stderr) {
@@ -36,6 +46,7 @@ function extractContent (xmlSchemaFile, targetDir) {
         if ( stderr != "" ) 
           console.log("  [ERROR] " + stderr )
         else {
+          validateJson(stdout, xmlSchemaFile);
           writeFile(xmlSchemaFile, targetDir, stdout);
           console.log("  [INFO] completed " + xmlSchemaFile);
         }
@@ -67,16 +78,18 @@ function getSourceFileList (sourceFile) {
 function startApp (argv) {
   var sourceFile = argv[0];
   var targetDir = argv[1];
-  var sourceFileList = getSourceFileList(sourceFile);
-  if (typeof sourceFileList != "undefined") {
-    if (typeof sourceFileList.schemaSourceFileList != "undefined") 
+  if (fs.existsSync(sourceFile)) {
+    var sourceFileList = getSourceFileList(sourceFile);
+    if (typeof sourceFileList != "undefined") {
+      if (typeof sourceFileList.schemaSourceFileList != "undefined") 
 
-      sourceFileList.schemaSourceFileList.forEach(function(schemaSourceFileListItem) {
-        extractContent(schemaSourceFileListItem, targetDir);
-      }, this)
+        sourceFileList.schemaSourceFileList.forEach(function(schemaSourceFileListItem) {
+          extractContent(schemaSourceFileListItem, targetDir);
+        }, this)
 
-  } else
-    extractContent(sourceFile, targetDir);
+    } else
+      extractContent(sourceFile, targetDir)
+  }
 }
  
 function help() {
