@@ -78,7 +78,7 @@ function getSourceFileList (sourceFile) {
 function startApp (argv) {
   var sourceFile = argv[0];
   var targetDir = argv[1];
-  if (fs.existsSync(sourceFile)) {
+  //if (fs.existsSync(sourceFile)) {
     var sourceFileList = getSourceFileList(sourceFile);
     if (typeof sourceFileList != "undefined") {
       if (typeof sourceFileList.schemaSourceFileList != "undefined") 
@@ -89,7 +89,7 @@ function startApp (argv) {
 
     } else
       extractContent(sourceFile, targetDir)
-  }
+  //}
 }
  
 function help() {
@@ -101,14 +101,16 @@ function hasValidArgs(argv) {
 
   if (argv.length == 2) {
     //argv.forEach( function (argvItem) {
-    fs.access(argv[0], function (err) {
+    //fs.access(argv[0], function (err) {
+    fs.existsSync(argv[0], function (err) {
       if (err) {
         console.log(err);
         return(false);
       }
     })
     //})
-    fs.access(SCRIPT_FILE, function (err) {
+    //fs.access(SCRIPT_FILE, function (err) {
+    fs.existsSync(SCRIPT_FILE, function (err) {
       if (err) {
         console.log(err);
         console.log("  \n[ERROR] unable to access SCRIPT_FILE: " + SCRIPT_FILE);
