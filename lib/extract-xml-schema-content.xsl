@@ -44,13 +44,20 @@
   </xsl:template>
   
   <xsl:template match="*:enumeration">
+    <xsl:variable name="isString">
+      <xsl:if test="contains(../@base, 'string') 
+      || contains(lower-case(../@base), 'token')">
+        <xsl:value-of select="true()"/>
+      </xsl:if>
+    </xsl:variable> 
     <xsl:if test="not(preceding-sibling::*)">"enumeration": [ </xsl:if> 
     <xsl:text>{ "value": </xsl:text>
-    <xsl:if test="contains(../@base, 'string')">
+    <!--<xsl:if test="contains(../@base, 'string')">-->
+    <xsl:if test="$isString">
       <xsl:text>"</xsl:text>
-    </xsl:if>
+    </xsl:if>    
     <xsl:value-of select="./@value"/>
-    <xsl:if test="contains(../@base, 'string')">
+    <xsl:if test="$isString">
       <xsl:text>"</xsl:text>
     </xsl:if>
     <xsl:if test=" descendant::*">, </xsl:if>
@@ -149,7 +156,10 @@
     <xsl:if test="@base">
       <xsl:text>"baseType": "</xsl:text>
       <xsl:value-of select="./@base"/>
-      <xsl:text>", </xsl:text>
+      <xsl:text>"</xsl:text>
+      <xsl:if test="descendant::*">
+        <xsl:text>, </xsl:text>
+      </xsl:if>
     </xsl:if>
     <xsl:apply-templates select="./*"/>
   </xsl:template>
