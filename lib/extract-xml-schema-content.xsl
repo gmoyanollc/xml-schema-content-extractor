@@ -11,8 +11,8 @@
   <oxd:doc scope="stylesheet">
     <oxd:desc>
       <oxd:p><oxd:b>name: </oxd:b>extract-xml-schema-content</oxd:p>
-      <oxd:p><oxd:b>version: </oxd:b>0.1.0</oxd:p>
-      <oxd:p><oxd:b>description: </oxd:b>Extract xml schema content missed by JAXB and output as a JSON structure.</oxd:p>
+      <oxd:p><oxd:b>version: </oxd:b>1.1.2</oxd:p>
+      <oxd:p><oxd:b>description: </oxd:b>Extract xml schema content missed by JAXB and output it as a JSON structure.</oxd:p>
       <oxd:p><oxd:b>main: </oxd:b>extract-xml-schema-content.xsl</oxd:p>
       <oxd:p><oxd:b>author: </oxd:b>[George Moyano] (https://onename.com/gmoyano)</oxd:p>
       <oxd:p><oxd:b>license: </oxd:b>MIT</oxd:p>
@@ -153,6 +153,7 @@
   
   <xsl:template match="*:restriction">
     <xsl:if test="preceding-sibling::*:restriction">, </xsl:if>
+    <!--<xsl:if test="preceding-sibling::*">, </xsl:if>-->
     <xsl:if test="@base">
       <xsl:text>"baseType": "</xsl:text>
       <xsl:value-of select="./@base"/>
@@ -166,6 +167,7 @@
   
   <xsl:template match="/*:schema/*:simpleType">
     <xsl:if test="preceding-sibling::*:simpleType">, </xsl:if>
+    <!--<xsl:if test="preceding-sibling::*:simpleType | preceding-sibling::*:complexType | preceding-sibling::*:element">, </xsl:if>-->
     <xsl:text>"</xsl:text>
     <xsl:choose>
       <xsl:when test="./@name">
@@ -210,8 +212,9 @@
   </xsl:template>
   
   <xsl:template match="*:complexType">
-    <!--<xsl:if test="preceding-sibling::*:complexType">, </xsl:if>-->
-    <xsl:if test="preceding-sibling::*">, </xsl:if>
+    <!--<xsl:if test="preceding-sibling::*">, </xsl:if>-->
+    <!--<xsl:if test="preceding-sibling::*:simpleType | preceding-sibling::*:complexType | preceding-sibling::*:element">, </xsl:if>-->
+    <xsl:if test="preceding-sibling::*:complexType">, </xsl:if>
     <xsl:text>"</xsl:text>
     <xsl:choose>
       <xsl:when test="./@name">
@@ -231,7 +234,9 @@
   </xsl:template>
   
   <xsl:template match="*:element">
-    <xsl:if test="preceding-sibling::*">, </xsl:if>
+<!--    <xsl:if test="preceding-sibling::*">, </xsl:if>-->
+<!--    <xsl:if test="preceding-sibling::*:simpleType | preceding-sibling::*:complexType | preceding-sibling::*:element">, </xsl:if>-->
+    <xsl:if test="preceding-sibling::*:element">, </xsl:if>
     <xsl:text>"</xsl:text>
     <xsl:value-of select="./@name"/>
     <xsl:text>": { "type": "element"</xsl:text>
@@ -252,9 +257,11 @@
     <xsl:if test="*:annotation/*:documentation">, </xsl:if>
     <xsl:apply-templates select="*:annotation/*:documentation"/>
     <xsl:text>, "components": { </xsl:text>
-      <xsl:apply-templates select="*:simpleType"/>
-      <xsl:apply-templates select="*:complexType"/>
-      <xsl:apply-templates select="*:element"/>
+    <xsl:apply-templates select="*:simpleType"/>
+    <xsl:if test="*:simpleType and *:complexType">, </xsl:if>
+    <xsl:apply-templates select="*:complexType"/>
+    <xsl:if test="*:complexType and *:element">, </xsl:if>
+    <xsl:apply-templates select="*:element"/>
     <xsl:text>} </xsl:text>
     <xsl:text>}</xsl:text>
   </xsl:template>
