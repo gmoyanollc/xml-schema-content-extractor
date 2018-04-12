@@ -50,7 +50,8 @@
         <xsl:value-of select="true()"/>
       </xsl:if>
     </xsl:variable> 
-    <xsl:if test="not(preceding-sibling::*)">"enumeration": [ </xsl:if> 
+    <!--<xsl:if test="not(preceding-sibling::*)">"enumeration": [ </xsl:if>-->
+    <xsl:if test="not(preceding-sibling::*:enumeration)">"enumeration": [ </xsl:if>
     <xsl:text>{ "value": </xsl:text>
     <!--<xsl:if test="contains(../@base, 'string')">-->
     <xsl:if test="$isString">
@@ -143,12 +144,18 @@
   </xsl:template>
   
   <xsl:template match="*:pattern">
-    <xsl:text>"pattern": "</xsl:text>
+    <!--<xsl:text>"pattern": "</xsl:text>-->
+    <xsl:choose>
+      <xsl:when test="not(preceding-sibling::*:pattern)">"pattern": [ </xsl:when>
+      <xsl:otherwise>, </xsl:otherwise>
+    </xsl:choose>
+    <xsl:text>"</xsl:text>
     <xsl:value-of select="fn:replace(fn:replace(normalize-space(./@value),'\\', '\\\\'), '&quot;', '\\&quot;')"/>
     <xsl:text>"</xsl:text>
-    <xsl:choose>
+    <xsl:if test="not(following-sibling::*:pattern)"> ]</xsl:if>
+<!--    <xsl:choose>
       <xsl:when test="position()!=last()">, </xsl:when>
-    </xsl:choose>
+    </xsl:choose>-->
   </xsl:template>
   
   <xsl:template match="*:restriction">
