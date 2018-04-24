@@ -8,10 +8,13 @@
   
   <xsl:output indent="yes" method="text"/>
   
+  <xsl:variable name="xsltName" select="'extract-xml-schema-content'"/>
+  <xsl:variable name="xsltVersion" select="'1.2.0'"/>
+  
   <oxd:doc scope="stylesheet">
     <oxd:desc>
-      <oxd:p><oxd:b>name: </oxd:b>extract-xml-schema-content</oxd:p>
-      <oxd:p><oxd:b>version: </oxd:b>1.1.2</oxd:p>
+      <oxd:p><oxd:b>name: </oxd:b><xsl:value-of select="$xsltName"/></oxd:p>
+      <oxd:p><oxd:b>version: </oxd:b><xsl:value-of select="$xsltVersion"/></oxd:p>
       <oxd:p><oxd:b>description: </oxd:b>Extract xml schema content missed by JAXB and output it as a JSON structure.</oxd:p>
       <oxd:p><oxd:b>main: </oxd:b>extract-xml-schema-content.xsl</oxd:p>
       <oxd:p><oxd:b>author: </oxd:b>[George Moyano] (https://onename.com/gmoyano)</oxd:p>
@@ -225,8 +228,8 @@
     <xsl:text>"</xsl:text>
     <xsl:choose>
       <xsl:when test="./@name">
-        <xsl:value-of select="./@name"/></xsl:when>
-      <xsl:otherwise>anonymousType</xsl:otherwise>
+        <xsl:value-of select="concat(./@name,'.type')"/></xsl:when>
+      <xsl:otherwise>anonymous.type</xsl:otherwise>
     </xsl:choose>
     <!--<xsl:text>": { "type": "complexType", "documentation": </xsl:text>
     <xsl:choose>
@@ -237,6 +240,10 @@
     <xsl:text>": { "type": "complexType"</xsl:text>
     <xsl:if test="*:annotation/*:documentation">, </xsl:if>
     <xsl:apply-templates select="./*:annotation/*:documentation"/>
+    <!-- 055+ -->
+    <xsl:if test="./*:sequence/*:element | ./*:complexContent/*:extension/*:sequence/*:element">, </xsl:if>
+    <!-- 055+ -->
+    <xsl:apply-templates select="./*:sequence/*:element | ./*:complexContent/*:extension/*:sequence/*:element"/>
     <xsl:text>} </xsl:text>
   </xsl:template>
   
@@ -257,7 +264,23 @@
   </xsl:template>
   
   <xsl:template match="*:schema">
-    <xsl:text>{ "schemaUri": </xsl:text>
+    <xsl:text>{ "@context": {
+    "@id": "</xsl:text>
+    <xsl:value-of select="document-uri(/)"/>
+    <xsl:text>",
+    "dateModified": {
+      "@id": "http://schema.org/dateModified"
+    },
+    "code": {
+      "@id": "http://schema.org/Code"
+    }
+  },
+  "dateModified": "</xsl:text><xsl:value-of select="current-dateTime()"/>
+    <xsl:text>", "code": {
+    "name": "</xsl:text><xsl:value-of select="$xsltName"/>
+    <xsl:text>", "version": "</xsl:text><xsl:value-of select="$xsltVersion"/>
+    <xsl:text>" },  </xsl:text> 
+    <xsl:text>"schemaUri": </xsl:text>
     <xsl:text>"</xsl:text>
     <xsl:value-of select="//@targetNamespace"/>
     <xsl:text>"</xsl:text>
