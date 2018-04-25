@@ -46,6 +46,15 @@
     <xsl:if test="not(following-sibling::*:documentation)"> ]</xsl:if>
   </xsl:template>
   
+  <xsl:template match="*:list">
+    <xsl:text>"itemType": "</xsl:text>
+    <xsl:value-of select="./@itemType"/>
+    <xsl:text>"</xsl:text>
+<!--    <xsl:choose>
+      <xsl:when test="position()!=last()">, </xsl:when>
+    </xsl:choose>-->
+  </xsl:template>
+  
   <xsl:template match="*:enumeration">
     <xsl:variable name="isString">
       <xsl:if test="contains(../@base, 'string') 
@@ -172,6 +181,15 @@
         <xsl:text>, </xsl:text>
       </xsl:if>
     </xsl:if>
+    <!-- 1.2.0+   -->
+    <xsl:if test="./*:simpleType/*:list">
+      <xsl:text>"list": </xsl:text>
+      <!--<xsl:value-of select="./*:simpleType/*:list/@itemType"/>-->
+      <!--<xsl:text>"</xsl:text>-->
+      <!--<xsl:if test="descendant::*">
+        <xsl:text>, </xsl:text>
+      </xsl:if>-->
+    </xsl:if>
     <xsl:apply-templates select="./*"/>
   </xsl:template>
   
@@ -240,9 +258,9 @@
     <xsl:text>": { "type": "complexType"</xsl:text>
     <xsl:if test="*:annotation/*:documentation">, </xsl:if>
     <xsl:apply-templates select="./*:annotation/*:documentation"/>
-    <!-- 055+ -->
+    <!-- 1.2.0+ -->
     <xsl:if test="./*:sequence/*:element | ./*:complexContent/*:extension/*:sequence/*:element">, </xsl:if>
-    <!-- 055+ -->
+    <!-- 1.2.0+ -->
     <xsl:apply-templates select="./*:sequence/*:element | ./*:complexContent/*:extension/*:sequence/*:element"/>
     <xsl:text>} </xsl:text>
   </xsl:template>
