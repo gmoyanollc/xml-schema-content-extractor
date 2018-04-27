@@ -8,7 +8,7 @@
   
   <xsl:output indent="yes" method="text"/>
   
-  <xsl:variable name="xsltName" select="'extract-xml-schema-content'"/>
+  <xsl:variable name="xsltName" select="'extract-xml-schema-content.xsl'"/>
   <xsl:variable name="xsltVersion" select="'1.2.0'"/>
   
   <oxd:doc scope="stylesheet">
@@ -246,7 +246,7 @@
     <xsl:text>"</xsl:text>
     <xsl:choose>
       <xsl:when test="./@name">
-        <xsl:value-of select="concat(./@name,'.type')"/></xsl:when>
+        <xsl:value-of select="concat(./@name,'_type')"/></xsl:when>
       <xsl:otherwise>anonymous.type</xsl:otherwise>
     </xsl:choose>
     <!--<xsl:text>": { "type": "complexType", "documentation": </xsl:text>
