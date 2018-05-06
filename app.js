@@ -28,12 +28,14 @@ function writeFile (xmlSchemaFile, targetDir, stdout) {
 
 function validateJson (jsonString, xmlSchemaFile) {
   try {
-    JSON.parse(jsonString);
+    var jsonObject = JSON.parse(jsonString);
+    var prettyJson = JSON.stringify(jsonObject, null, "  ")
     console.log("  [INFO] extraction JSON format is valid for: " + xmlSchemaFile);
   } catch (error) {
     console.log("  [ERROR] extraction JSON format is invalid for: " + xmlSchemaFile);
-    console.log(error.message)
+    console.log("    " + error.message);
   }
+  return(prettyJson);
 }
 
 function extractContent (xmlSchemaFile, targetDir) {
@@ -46,9 +48,13 @@ function extractContent (xmlSchemaFile, targetDir) {
         if ( stderr != "" ) 
           console.log("  [ERROR] " + stderr )
         else {
-          validateJson(stdout, xmlSchemaFile);
-          writeFile(xmlSchemaFile, targetDir, stdout);
-          console.log("  [INFO] completed " + xmlSchemaFile);
+          var prettyJson = validateJson(stdout, xmlSchemaFile);
+          if ( typeof prettyJson != "undefined" ) {
+            writeFile(xmlSchemaFile, targetDir, prettyJson);
+            console.log("  [INFO] completed " + xmlSchemaFile)
+          } else {
+            console.log("  [WARNING] failed to complete " + xmlSchemaFile)
+          }
         }
     });
 }
@@ -113,14 +119,14 @@ function hasValidArgs(argv) {
     fs.existsSync(SCRIPT_FILE, function (err) {
       if (err) {
         console.log(err);
-        console.log("  \n[ERROR] unable to access SCRIPT_FILE: " + SCRIPT_FILE);
+        console.log("\n  [ERROR] unable to access SCRIPT_FILE: " + SCRIPT_FILE);
         return(false);
       }
     })
     
 
   } else {
-    console.log("  \n[ERROR] missing argument");
+    console.log("\n  [ERROR] missing argument");
     return(false);
   };
   return(true);
