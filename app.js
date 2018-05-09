@@ -88,9 +88,17 @@ function startApp (argv) {
     var sourceFileList = getSourceFileList(sourceFile);
     if (typeof sourceFileList != "undefined") {
       if (typeof sourceFileList.schemaSourceFileList != "undefined") 
+        var targetFolderName = targetDir.substring(targetDir.lastIndexOf('/') + 1);
+        var schemaSourceFileListItemPathSplit;
+        var targetDirSuffix;
 
         sourceFileList.schemaSourceFileList.forEach(function(schemaSourceFileListItem) {
-          extractContent(schemaSourceFileListItem, targetDir);
+          schemaSourceFileListItemPathSplit = schemaSourceFileListItem.split(targetFolderName);
+          if (schemaSourceFileListItemPathSplit.length == 2) {
+            targetDirSuffix = schemaSourceFileListItemPathSplit[1].substring(0, schemaSourceFileListItemPathSplit[1].lastIndexOf('/'));
+            extractContent(schemaSourceFileListItem, targetDir + targetDirSuffix)
+          } else
+            console.log("  [ERROR] unable to parse target suffix path for schemaSourceFileListItem: " + schemaSourceFileListItem);
         }, this)
 
     } else
