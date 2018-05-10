@@ -1,6 +1,7 @@
 //var SaxonJS = require("./lib/Saxon-JS-1.0.0/SaxonJS.js");
 console.log("\nSaxonJS 1.0.0 does not support NodeJS, planned for future release.  This implements bash script Saxon java execution.");
-var exec = require("child_process").exec;
+//060 var exec = require("child_process").exec;
+const { spawn } = require("child_process");
 var fs = require("fs"), path = require("path");
 var SCRIPT_FILE = "./bin/extract-content.sh"
 
@@ -41,22 +42,65 @@ function validateJson (jsonString, xmlSchemaFile) {
 function extractContent (xmlSchemaFile, targetDir) {
   console.log("  [INFO] start: " + xmlSchemaFile);
   //exec("bash ./bin/extract-content.sh " + xmlSchemaFile, function(error, stdout, stderr) {
-    exec("bash " + SCRIPT_FILE + " " + xmlSchemaFile, {maxBuffer: 1024 * 10000}, function(error, stdout, stderr) {
+    /*060 exec("bash " + SCRIPT_FILE + " " + xmlSchemaFile, {maxBuffer: 1024 * 10000}, function(error, stdout, stderr) {
       if ( error != null) 
-        console.log("  [ERROR] " + error)
-      else
-        if ( stderr != "" ) 
-          console.log("  [ERROR] " + stderr )
-        else {
-          var prettyJson = validateJson(stdout, xmlSchemaFile);
-          if ( typeof prettyJson != "undefined" ) {
-            writeFile(xmlSchemaFile, targetDir, prettyJson);
-            console.log("  [INFO] completed " + xmlSchemaFile)
-          } else {
-            console.log("  [WARNING] failed to complete " + xmlSchemaFile)
-          }
+      console.log("  [ERROR] " + error)
+    else
+      if ( stderr != "" ) 
+        console.log("  [ERROR] " + stderr )
+      else {
+        var prettyJson = validateJson(stdout, xmlSchemaFile);
+        if ( typeof prettyJson != "undefined" ) {
+          writeFile(xmlSchemaFile, targetDir, prettyJson);
+          console.log("  [INFO] completed " + xmlSchemaFile)
+        } else {
+          console.log("  [WARNING] failed to complete " + xmlSchemaFile)
         }
-    });
+      }
+  });*/
+  //const child = spawn("bash " + SCRIPT_FILE + " " + xmlSchemaFile, { stdio: "ignore", shell: true, detached: true });
+  const child = spawn("bash", [ SCRIPT_FILE, xmlSchemaFile ], { shell: true } );
+  //const child = spawn('pwd');
+  //child.unref();
+  child.on("exit", function (exitCode, exitSignal) {
+    if ( exitSignal != null) {
+      console.log("  [ERROR] failed to extract: " + xmlSchemaFile);
+      console.log("      `-- exitSignal: " + exitSignal)
+    } else {
+      if ( exitCode != "" ) {
+        console.log("  [ERROR] failed to extract: " + xmlSchemaFile);
+        console.log("      `-- exitCode: " + exitCode );
+        //console.log("  [ERROR] child.stderr: " + child.stderr.toString() )
+      //} else {
+      }
+    }
+  });
+  /*child.stdout.on('data', function (data) {
+    console.log(`child stdout:\n${data}`);
+  });*/
+  
+        //if ( child.stdout != null ) {
+          child.stdout.on('data', function(stdout) {
+            var prettyJson = validateJson(stdout, xmlSchemaFile);
+            if ( typeof prettyJson != "undefined" ) {
+              writeFile(xmlSchemaFile, targetDir, prettyJson);
+              console.log("  [INFO] completed: " + xmlSchemaFile)
+            } else {
+              console.log("  [WARNING] failed to extract: " + xmlSchemaFile);
+              writeFile(xmlSchemaFile, targetDir, stdout);
+            }
+          });
+        //} else
+          //console.log(  "  [WARNING] nothing extracted for: " + xmlSchemaFile);
+      //}
+  //});
+  child.stderr.on('data', function(stderr){
+    console.log("  [ERROR] failed to extract: " + xmlSchemaFile);
+    console.log("      `-- stderr: " + stderr)
+  });
+  child.on("error", function (err) {
+    console.log("  [ERROR] failed to run extraction for: " + SCRIPT_FILE)
+  })
 }
 
 function getSourceFileList (sourceFile) {
