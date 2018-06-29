@@ -1,29 +1,28 @@
 # XML Schema Content Extractor
-xml-schema-content-extractor takes data component documentation and facets in XML Schema and represents it in a JSON data format.
+xml-schema-content-extractor takes data component documentation and facets from XML Schema and represents it in a JSON data format.  The JSON data may used to reference a data component's documentation and facets for JSON schema development.
 
 ## Get Started
+xml-schema-content-extractor may be run either as a bash script or NodeJS script.
 
-  1. Run bash script `./bin/extract-content.sh`.
+  * Run bash script for usage: `./bin/extract-content.sh`.
 
-    example: 
-    
-      `bash ./bin/extract-content.sh ./data/xml-schema/domain-x/type.xsd | tee ./data/extraction/domain-x/type.xsd-content.json`
+     JSON data is sent to standard output and may be directed to a file for stand-alone runs.
+
+  or
+
+  * Run NodeJS script for usage: `node app.js`.
+
+    JSON data is sent to the folder provided by an argument.
       
 ## Optional Batch Configuration
-The bash script `./bin/create-filtered-xml-schema-json-file-list.sh` creates a JSON listing of input XML Schema files.  It may require modification of paths to input XML Schema and XSLT processor.  
+The bash script `./bin/create-xml-schema-file-list.sh` creates a JSON listing of input XML Schema files. 
 
-After modifying it for your environment, execute the bash script:
+  * Run bash script for usage: `./bin/create-xml-schema-file-list.sh`
 
-  `bash ./bin/create-filtered-xml-schema-json-file-list.sh`
-
-A JSON listing is created in file `xml-schema-file-list.json`. 
+A JSON listing is created in a file named `xml-schema-file-list.json`. 
 
 ## Compile XSLT Change
-XSLT changes require compilation when using the xml-schema-content-extractor bash script.  
-
-Compile stylesheet changes by running the provided compile-xslt bash script.  
-
-(Note: The xml-schema-content-extractor bash script applies a compiled stylesheet although it may be modified to apply an uncompiled stylesheet.)
+XSLT changes may be compiled.  Compile stylesheet changes by running the provided `compile-xslt` bash script.  
 
 # Authoritative Sources
 
@@ -31,4 +30,4 @@ The authoritative and complete work is maintained on [GitHub](https://github.com
 
 [George Moyano](https://onename.com/gmoyano)
 @github/gmoyanollc
-modified: May 10 2018
+modified: Jun 28 2018
