@@ -1,9 +1,9 @@
 //var SaxonJS = require("./lib/Saxon-JS-1.0.0/SaxonJS.js");
 console.log("\nSaxonJS 1.0.0 does not support NodeJS, planned for future release.  This implements bash script Saxon java execution.");
-//060 var exec = require("child_process").exec;
 const { spawn } = require("child_process");
 var fs = require("fs"), path = require("path");
 var SCRIPT_FILE = "./bin/extract-content.sh"
+var XSL_FILE = "./lib/extract-xml-schema-content.xsl"
 
 function writeFile (xmlSchemaFile, targetDir, stdout) {
 
@@ -19,7 +19,6 @@ function writeFile (xmlSchemaFile, targetDir, stdout) {
     throw ("  [ERROR] can not create dirPath: " + this.targetSchemaBaseDir + this.targetSchemaFileDestination);
   };
 
-  //var xmlSchemaFileJsonName = xmlSchemaFile.substring(0, xmlSchemaFile.lastIndexOf('.')) + "-content.json";
   var xmlSchemaFileJsonName = xmlSchemaFile.substring(xmlSchemaFile.lastIndexOf('/') + 1) + "-content.json";
   console.log("  [INFO] write: " + targetDir + '/' + xmlSchemaFileJsonName);
   if ( dirPathExists(targetDir + '/' + xmlSchemaFileJsonName) ) {
@@ -39,29 +38,11 @@ function validateJson (jsonString, xmlSchemaFile) {
   return(prettyJson);
 }
 
-function extractContent (xmlSchemaFile, targetDir) {
+function extractContent (xmlSchemaFile, saxonJarFile, targetDir) {
+  let content = ""
   console.log("  [INFO] start: " + xmlSchemaFile);
-  //exec("bash ./bin/extract-content.sh " + xmlSchemaFile, function(error, stdout, stderr) {
-    /*060 exec("bash " + SCRIPT_FILE + " " + xmlSchemaFile, {maxBuffer: 1024 * 10000}, function(error, stdout, stderr) {
-      if ( error != null) 
-      console.log("  [ERROR] " + error)
-    else
-      if ( stderr != "" ) 
-        console.log("  [ERROR] " + stderr )
-      else {
-        var prettyJson = validateJson(stdout, xmlSchemaFile);
-        if ( typeof prettyJson != "undefined" ) {
-          writeFile(xmlSchemaFile, targetDir, prettyJson);
-          console.log("  [INFO] completed " + xmlSchemaFile)
-        } else {
-          console.log("  [WARNING] failed to complete " + xmlSchemaFile)
-        }
-      }
-  });*/
-  //const child = spawn("bash " + SCRIPT_FILE + " " + xmlSchemaFile, { stdio: "ignore", shell: true, detached: true });
-  const child = spawn("bash", [ SCRIPT_FILE, xmlSchemaFile ], { shell: true } );
-  //const child = spawn('pwd');
-  //child.unref();
+  const child = spawn("bash", [ SCRIPT_FILE, xmlSchemaFile, saxonJarFile, XSL_FILE ], { shell: true } );
+
   child.on("exit", function (exitCode, exitSignal) {
     if ( exitSignal != null) {
       console.log("  [ERROR] failed to extract: " + xmlSchemaFile);
@@ -70,34 +51,30 @@ function extractContent (xmlSchemaFile, targetDir) {
       if ( exitCode != "" ) {
         console.log("  [ERROR] failed to extract: " + xmlSchemaFile);
         console.log("      `-- exitCode: " + exitCode );
-        //console.log("  [ERROR] child.stderr: " + child.stderr.toString() )
-      //} else {
       }
     }
   });
-  /*child.stdout.on('data', function (data) {
-    console.log(`child stdout:\n${data}`);
-  });*/
-  
-        //if ( child.stdout != null ) {
-          child.stdout.on('data', function(stdout) {
-            var prettyJson = validateJson(stdout, xmlSchemaFile);
-            if ( typeof prettyJson != "undefined" ) {
-              writeFile(xmlSchemaFile, targetDir, prettyJson);
-              console.log("  [INFO] completed: " + xmlSchemaFile)
-            } else {
-              console.log("  [WARNING] failed to extract: " + xmlSchemaFile);
-              writeFile(xmlSchemaFile, targetDir, stdout);
-            }
-          });
-        //} else
-          //console.log(  "  [WARNING] nothing extracted for: " + xmlSchemaFile);
-      //}
-  //});
+
+  child.stdout.on("data", function(stdoutChunk) {
+    content += stdoutChunk
+  })
+
+  child.stdout.on("end", function() {
+    var prettyJson = validateJson(content, xmlSchemaFile);
+    if ( typeof prettyJson != "undefined" ) {
+      writeFile(xmlSchemaFile, targetDir, prettyJson);
+      console.log("  [INFO] completed: " + xmlSchemaFile)
+    } else {
+      console.log("  [WARNING] failed to extract: " + xmlSchemaFile);
+      writeFile(xmlSchemaFile, targetDir, stdout);
+    }
+  });
+
   child.stderr.on('data', function(stderr){
     console.log("  [ERROR] failed to extract: " + xmlSchemaFile);
     console.log("      `-- stderr: " + stderr)
   });
+  
   child.on("error", function (err) {
     console.log("  [ERROR] failed to run extraction for: " + SCRIPT_FILE)
   })
@@ -126,57 +103,70 @@ function getSourceFileList (sourceFile) {
 }
 
 function startApp (argv) {
-  var sourceFile = argv[0];
-  var targetDir = argv[1];
-  //if (fs.existsSync(sourceFile)) {
-    var sourceFileList = getSourceFileList(sourceFile);
-    if (typeof sourceFileList != "undefined") {
-      if (typeof sourceFileList.schemaSourceFileList != "undefined") 
-        var targetFolderName = targetDir.substring(targetDir.lastIndexOf('/') + 1);
-        var schemaSourceFileListItemPathSplit;
-        var targetDirSuffix;
+  let sourceFile = argv[0]
+  let saxonJarFile = argv[1]
+  let targetDir = argv[2]
+  var sourceFileList = getSourceFileList(sourceFile);
+  if (typeof sourceFileList != "undefined") {
+    if (typeof sourceFileList.schemaSourceFileList != "undefined") 
+      var targetFolderName = targetDir.substring(targetDir.lastIndexOf('/') + 1);
+      var schemaSourceFileListItemPathSplit;
+      var targetDirSuffix;
 
-        sourceFileList.schemaSourceFileList.forEach(function(schemaSourceFileListItem) {
-          schemaSourceFileListItemPathSplit = schemaSourceFileListItem.split(targetFolderName);
-          if (schemaSourceFileListItemPathSplit.length == 2) {
-            targetDirSuffix = schemaSourceFileListItemPathSplit[1].substring(0, schemaSourceFileListItemPathSplit[1].lastIndexOf('/'));
-            extractContent(schemaSourceFileListItem, targetDir + targetDirSuffix)
-          } else
-            console.log("  [ERROR] unable to parse target suffix path for schemaSourceFileListItem: " + schemaSourceFileListItem);
-        }, this)
+      sourceFileList.schemaSourceFileList.forEach(function(schemaSourceFileListItem) {
+        schemaSourceFileListItemPathSplit = schemaSourceFileListItem.split(targetFolderName);
+        if (schemaSourceFileListItemPathSplit.length == 2) {
+          targetDirSuffix = schemaSourceFileListItemPathSplit[1].substring(0, schemaSourceFileListItemPathSplit[1].lastIndexOf('/'));
+          extractContent(schemaSourceFileListItem, saxonJarFile, targetDir + targetDirSuffix)
+        } else
+          console.log("  [ERROR] unable to parse target suffix path for schemaSourceFileListItem: " + schemaSourceFileListItem);
+      }, this)
 
-    } else
-      extractContent(sourceFile, targetDir)
-  //}
+  } else
+    extractContent(sourceFile, saxonJarFile, targetDir)
 }
  
 function help() {
-  console.log("\n  usage: " + process.argv[0] + ' ' + process.argv[1] + " source-file target-dir");
-  console.log("\n  example: node app.js source\/file.xsd target\/dir\n");
+  console.log("\n  usage:", process.argv[0], process.argv[1], "source-file saxon-jar-file target-dir");
+  console.log("\n  example: node app.js source\/file.xsd /opt/saxonica/Saxon9he.jar target\/dir\n");
 }
 
 function hasValidArgs(argv) {
 
-  if (argv.length == 2) {
-    //argv.forEach( function (argvItem) {
-    //fs.access(argv[0], function (err) {
-    fs.existsSync(argv[0], function (err) {
+  if (argv.length == 3) {
+    sourceFile = argv[0]
+    saxonJarFile = argv[1]
+    targetDir = argv[2]
+    fs.existsSync(sourceFile, function (err) {
       if (err) {
         console.log(err);
+        console.log("\n  [ERROR] unable to access source file:", sourceFile);
         return(false);
       }
     })
-    //})
-    //fs.access(SCRIPT_FILE, function (err) {
+    fs.existsSync(saxonJarFile, function (err) {
+      if (err) {
+        console.log(err);
+        console.log("\n  [ERROR] unable to access Saxon jar file:", saxonJarFile);
+        return(false);
+      }
+    })
     fs.existsSync(SCRIPT_FILE, function (err) {
       if (err) {
-        console.log(err);
-        console.log("\n  [ERROR] unable to access SCRIPT_FILE: " + SCRIPT_FILE);
-        return(false);
+        console.log(err)
+        console.log("\n  [ERROR] unable to access script file:", SCRIPT_FILE)
+        console.log("\n    try again from:", path.basename(__dirname))
+        return(false)
       }
     })
-    
-
+    fs.existsSync(XSL_FILE, function (err) {
+      if (err) {
+        console.log(err)
+        console.log("\n  [ERROR] unable to access XSL file:", XSL_FILE)
+        console.log("\n    try again from:", path.basename(__dirname))
+        return(false)
+      }
+    })
   } else {
     console.log("\n  [ERROR] missing argument");
     return(false);
