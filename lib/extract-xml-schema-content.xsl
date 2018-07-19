@@ -9,7 +9,7 @@
   <xsl:output indent="yes" method="text"/>
   
   <xsl:variable name="xsltName" select="'extract-xml-schema-content.xsl'"/>
-  <xsl:variable name="xsltVersion" select="'1.2.1'"/>
+  <xsl:variable name="xsltVersion" select="'1.3.0'"/>
   
   <oxd:doc scope="stylesheet">
     <oxd:desc>
@@ -171,7 +171,9 @@
   </xsl:template>
   
   <xsl:template match="*:restriction">
-    <xsl:if test="preceding-sibling::*:restriction | preceding-sibling::*:annotation/*:documentation">, </xsl:if>
+    <!--130-<xsl:if test="preceding-sibling::*:restriction">, </xsl:if>-->
+    <!--130+-->
+    <xsl:if test="(not(/*:schema/*:simpleType) and preceding-sibling::*:annotation/*:documentation) or (preceding-sibling::*:restriction)">, </xsl:if>
     <!--<xsl:if test="preceding-sibling::*">, </xsl:if>-->
     <xsl:if test="@base">
       <xsl:text>"baseType": "</xsl:text>
@@ -270,11 +272,28 @@
 <!--    <xsl:if test="preceding-sibling::*:simpleType | preceding-sibling::*:complexType | preceding-sibling::*:element">, </xsl:if>-->
     <xsl:if test="preceding-sibling::*:element">, </xsl:if>
     <xsl:text>"</xsl:text>
-    <xsl:value-of select="./@name"/>
+    <!--130-<xsl:value-of select="./@name"/>-->
+    <!--130+--><xsl:if test="./@name">
+      <!--130+--><xsl:value-of select="./@name"/>
+    <!--130+--></xsl:if>
+    <!--130+--><xsl:if test="./@ref">
+      <!--130+--><xsl:value-of select="./@ref"/>
+    <!--130+--></xsl:if>
     <xsl:text>": { "type": "element"</xsl:text>
     <xsl:if test="*:annotation/*:documentation">, </xsl:if>
     <xsl:apply-templates select="./*:annotation/*:documentation"/>
     <xsl:text>, "facets": [ </xsl:text>
+    <!--130+--><xsl:if test="./@maxOccurs">
+      <!--130+-->  <xsl:text>{ "maxOccurs": "</xsl:text>
+      <!--130+--><xsl:value-of select="./@maxOccurs"/>
+      <!--130+--><xsl:text>" }</xsl:text>
+      <!--130+--></xsl:if>
+    <!--130+--><xsl:if test="./@maxOccurs and ./@minOccurs"><xsl:text>, </xsl:text></xsl:if>
+    <!--130+--><xsl:if test="./@minOccurs">
+      <!--130+-->  <xsl:text>{ "minOccurs": "</xsl:text>
+      <!--130+--><xsl:value-of select="./@minOccurs"/>
+      <!--130+--><xsl:text>" }</xsl:text>
+    <!--130+--></xsl:if>  
     <xsl:apply-templates select="./*:simpleType"/>
     <xsl:text>] </xsl:text>
     <xsl:apply-templates select="./*:complexType/*:attribute"/>
@@ -302,6 +321,17 @@
     <xsl:text>"</xsl:text>
     <xsl:value-of select="//@targetNamespace"/>
     <xsl:text>"</xsl:text>
+    <!--130+--><xsl:text>, "schemaPrefixNamespaceKey": [ </xsl:text>
+    <!--130+--><xsl:for-each select="namespace::*">
+      <!--130+--><xsl:text>{ "</xsl:text>
+      <!--130+--><xsl:value-of select="name()"/>
+      <!--130+--><xsl:text>": "</xsl:text>
+      <!--130+--><xsl:value-of select="."/>
+      <!--130+--><xsl:text>" }</xsl:text>
+      <!--130+--><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if>
+      <!--130+-->
+      <!--130+--></xsl:for-each>
+    <!--130+--><xsl:text> ]</xsl:text>
     <xsl:if test="*:annotation/*:documentation">, </xsl:if>
     <xsl:apply-templates select="*:annotation/*:documentation"/>
     <xsl:text>, "components": { </xsl:text>

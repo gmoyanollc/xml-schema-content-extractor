@@ -13,6 +13,13 @@ xml-schema-content-extractor may be run either as a bash script or NodeJS script
   * Run NodeJS script for usage: `node app.js`.
 
     JSON data is sent to the folder provided by an argument.
+
+### Sample
+The sample contained in folder `./sample` was produced with the following syntax:
+
+```
+  node app.js './sample/xml-schema/niem-core/3.0/niem-core.xsd' './sample' '/opt/saxonica/SaxonEE9-7-0-18J/saxon9ee.jar'
+```
       
 ## Optional Batch Configuration
 The bash script `./bin/create-xml-schema-file-list.sh` creates a JSON listing of input XML Schema files. 

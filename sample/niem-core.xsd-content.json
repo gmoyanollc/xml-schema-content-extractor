@@ -1,0 +1,974 @@
+{
+  "@context": {
+    "@id": "file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./sample/xml-schema/niem-core/3.0/niem-core.xsd",
+    "dateModified": {
+      "@id": "http://schema.org/dateModified"
+    },
+    "code": {
+      "@id": "http://schema.org/Code"
+    }
+  },
+  "dateModified": "2018-07-19T16:50:10.799-07:00",
+  "code": {
+    "name": "extract-xml-schema-content.xsl",
+    "version": "1.2.1"
+  },
+  "schemaUri": "http://release.niem.gov/niem/niem-core/3.0/",
+  "schemaPrefixNamespaceKey": [
+    {
+      "niem-xs": "http://release.niem.gov/niem/proxy/xsd/3.0/"
+    },
+    {
+      "ct": "http://release.niem.gov/niem/conformanceTargets/3.0/"
+    },
+    {
+      "structures": "http://release.niem.gov/niem/structures/3.0/"
+    },
+    {
+      "appinfo": "http://release.niem.gov/niem/appinfo/3.0/"
+    },
+    {
+      "nc": "http://release.niem.gov/niem/niem-core/3.0/"
+    },
+    {
+      "nga": "http://release.niem.gov/niem/codes/nga_datum/3.0/"
+    },
+    {
+      "unece": "http://release.niem.gov/niem/codes/unece_rec20/3.0/"
+    },
+    {
+      "xsi": "http://www.w3.org/2001/XMLSchema-instance"
+    },
+    {
+      "xs": "http://www.w3.org/2001/XMLSchema"
+    },
+    {
+      "xml": "http://www.w3.org/XML/1998/namespace"
+    }
+  ],
+  "documentation": [
+    "NIEM Core."
+  ],
+  "components": {
+    "AngularMinuteSimpleType": {
+      "type": "simpleType",
+      "documentation": [
+        "A data type for a minute of a degree, with a restricted range of 0 (inclusive) to 60 (exclusive)."
+      ],
+      "facets": [
+        {
+          "baseType": "xs:decimal",
+          "minInclusive": 0,
+          "maxExclusive": 60
+        }
+      ]
+    },
+    "AngularSecondSimpleType": {
+      "type": "simpleType",
+      "documentation": [
+        "A data type for a second of a minute, with a restricted range of 0 (inclusive) to 60 (exclusive)."
+      ],
+      "facets": [
+        {
+          "baseType": "xs:decimal",
+          "minInclusive": 0,
+          "maxExclusive": 60
+        }
+      ]
+    },
+    "Degree360SimpleType": {
+      "type": "simpleType",
+      "documentation": [
+        "A data type for a value between 0 (inclusive) and 360 (exclusive)."
+      ],
+      "facets": [
+        {
+          "baseType": "xs:decimal",
+          "minInclusive": 0,
+          "maxExclusive": 360
+        }
+      ]
+    },
+    "DirectionCodeSimpleType": {
+      "type": "simpleType",
+      "documentation": [
+        "A data type for compass directions."
+      ],
+      "facets": [
+        {
+          "baseType": "xs:string",
+          "enumeration": [
+            {
+              "value": "E",
+              "documentation": [
+                "East"
+              ]
+            },
+            {
+              "value": "ENE",
+              "documentation": [
+                "East North East"
+              ]
+            },
+            {
+              "value": "ESE",
+              "documentation": [
+                "East South East"
+              ]
+            },
+            {
+              "value": "N",
+              "documentation": [
+                "North"
+              ]
+            },
+            {
+              "value": "NE",
+              "documentation": [
+                "North East"
+              ]
+            },
+            {
+              "value": "NNE",
+              "documentation": [
+                "North North East"
+              ]
+            },
+            {
+              "value": "NNW",
+              "documentation": [
+                "North North West"
+              ]
+            },
+            {
+              "value": "NW",
+              "documentation": [
+                "North West"
+              ]
+            },
+            {
+              "value": "S",
+              "documentation": [
+                "South"
+              ]
+            },
+            {
+              "value": "SE",
+              "documentation": [
+                "South East"
+              ]
+            },
+            {
+              "value": "SSE",
+              "documentation": [
+                "South South East"
+              ]
+            },
+            {
+              "value": "SSW",
+              "documentation": [
+                "South South West"
+              ]
+            },
+            {
+              "value": "SW",
+              "documentation": [
+                "South West"
+              ]
+            },
+            {
+              "value": "W",
+              "documentation": [
+                "West"
+              ]
+            },
+            {
+              "value": "WNW",
+              "documentation": [
+                "West North West"
+              ]
+            },
+            {
+              "value": "WSW",
+              "documentation": [
+                "West South West"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "LatitudeDegreeSimpleType": {
+      "type": "simpleType",
+      "documentation": [
+        "A data type for a degree of latitude."
+      ],
+      "facets": [
+        {
+          "baseType": "xs:decimal",
+          "maxInclusive": 90,
+          "minInclusive": -90
+        }
+      ]
+    },
+    "LongitudeDegreeSimpleType": {
+      "type": "simpleType",
+      "documentation": [
+        "A data type for a degree of longitude."
+      ],
+      "facets": [
+        {
+          "baseType": "xs:decimal",
+          "maxExclusive": 180,
+          "minInclusive": -180
+        }
+      ]
+    },
+    "NonNegativeDecimalSimpleType": {
+      "type": "simpleType",
+      "documentation": [
+        "A data type for a decimal value with a minimum value of 0."
+      ],
+      "facets": [
+        {
+          "baseType": "xs:decimal",
+          "minInclusive": 0
+        }
+      ]
+    },
+    "AngularMeasureType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for the measurement of an angle."
+      ],
+      "nc:AngularDegreeValue": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      },
+      "nc:AngularMinuteValue": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      },
+      "nc:AngularSecondValue": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      },
+      "nc:AngularMeasureAugmentationPoint": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "AngularMinuteType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a minute of a degree, with a restricted range of 0 (inclusive) to 60 (exclusive)."
+      ]
+    },
+    "AngularSecondType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a second of a minute, with a restricted range of 0 (inclusive) to 60 (exclusive)."
+      ]
+    },
+    "ContactInformationType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for how to contact a person or an organization."
+      ],
+      "nc:ContactMeans": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "DateRangeType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a range of dates."
+      ],
+      "nc:StartDate": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      },
+      "nc:EndDate": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "DateType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a calendar date."
+      ],
+      "nc:DateRepresentation": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "Degree360Type_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a value between 0 (inclusive) and 360 (exclusive)."
+      ]
+    },
+    "DirectionCodeType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for compass directions."
+      ]
+    },
+    "FacilityType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a building, place, or structure that provides a particular service."
+      ],
+      "nc:FacilityIdentification": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      },
+      "nc:FacilityName": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      },
+      "nc:FacilityAugmentationPoint": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "IdentificationType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a representation of an identity."
+      ],
+      "nc:IdentificationID": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      },
+      "nc:IdentificationAugmentationPoint": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "ItemType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for an article or thing."
+      ]
+    },
+    "LatitudeCoordinateType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a measurement of the angular distance between a point on the Earth and the Equator."
+      ],
+      "nc:LatitudeDegreeValue": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "1"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "LatitudeDegreeType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a degree of latitude."
+      ]
+    },
+    "Location2DGeospatialCoordinateType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a location identified by latitude and longitude."
+      ],
+      "nc:GeographicCoordinateLatitude": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "1"
+          },
+          {
+            "minOccurs": "1"
+          }
+        ]
+      },
+      "nc:GeographicCoordinateLongitude": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "1"
+          },
+          {
+            "minOccurs": "1"
+          }
+        ]
+      },
+      "nc:Location2DGeospatialCoordinateAugmentationPoint": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "Location3DGeospatialCoordinateType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a location identified by latitude, longitude, and height."
+      ],
+      "nc:LocationHeight": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "1"
+          },
+          {
+            "minOccurs": "1"
+          }
+        ]
+      }
+    },
+    "LocationHeightMeasureType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a measurement of the height of a location relative to a reference point."
+      ],
+      "nc:LocationHeightVerticalDatum": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "LocationType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for geospatial location."
+      ],
+      "nc:LocationGeospatialCoordinate": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      },
+      "nc:LocationAugmentationPoint": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "LongitudeCoordinateType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a measurement of the angular distance between a point on the Earth and the Prime Meridian."
+      ],
+      "nc:LongitudeDegreeValue": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "1"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "LongitudeDegreeType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a degree of longitude."
+      ]
+    },
+    "MeasureType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a measurement."
+      ],
+      "nc:MeasureValue": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      },
+      "nc:MeasureUnit": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "ProperNameTextType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a word or phrase by which a person or thing is known, referred, or addressed."
+      ]
+    },
+    "StatusType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a state of something or someone."
+      ],
+      "nc:StatusCommentText": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "SystemIdentificationType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a number or code assigned to a system to uniquely identify the system."
+      ],
+      "nc:SystemName": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      },
+      "nc:SystemIdentificationAugmentationPoint": {
+        "type": "element",
+        "facets": [
+          {
+            "maxOccurs": "unbounded"
+          },
+          {
+            "minOccurs": "0"
+          }
+        ]
+      }
+    },
+    "TelephoneNumberType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a telephone number for a telecommunication device."
+      ]
+    },
+    "TextType_type": {
+      "type": "complexType",
+      "documentation": [
+        "A data type for a character string."
+      ]
+    },
+    "AngularDegreeValue": {
+      "type": "element",
+      "documentation": [
+        "A value that specifies a degree of an angular measure."
+      ],
+      "facets": []
+    },
+    "AngularMeasureAugmentationPoint": {
+      "type": "element",
+      "documentation": [
+        "An augmentation point for AngularMeasureType."
+      ],
+      "facets": []
+    },
+    "AngularMinuteValue": {
+      "type": "element",
+      "documentation": [
+        "A value that specifies a minute of a degree. The value comes from a restricted range of 0 (inclusive) to 60 (exclusive)."
+      ],
+      "facets": []
+    },
+    "AngularSecondValue": {
+      "type": "element",
+      "documentation": [
+        "A value that specifies a second of a minute. The value comes from a restricted range of 0 (inclusive) to 60 (exclusive)."
+      ],
+      "facets": []
+    },
+    "BinaryURI": {
+      "type": "element",
+      "documentation": [
+        "A URL or file reference of a binary object."
+      ],
+      "facets": []
+    },
+    "ContactInformation": {
+      "type": "element",
+      "documentation": [
+        "A set of details about how to contact a person or an organization."
+      ],
+      "facets": []
+    },
+    "ContactMeans": {
+      "type": "element",
+      "documentation": [
+        "A data concept for a means of contacting someone."
+      ],
+      "facets": []
+    },
+    "ContactTelephoneNumber": {
+      "type": "element",
+      "documentation": [
+        "A telephone number for a telecommunication device by which a person or organization may be contacted."
+      ],
+      "facets": []
+    },
+    "DateRepresentation": {
+      "type": "element",
+      "documentation": [
+        "A data concept for a representation of a date."
+      ],
+      "facets": []
+    },
+    "DateTime": {
+      "type": "element",
+      "documentation": [
+        "A full date and time."
+      ],
+      "facets": []
+    },
+    "EndDate": {
+      "type": "element",
+      "documentation": [
+        "An end date."
+      ],
+      "facets": []
+    },
+    "Facility": {
+      "type": "element",
+      "documentation": [
+        "A building, place, or structure that provides a particular service."
+      ],
+      "facets": []
+    },
+    "FacilityAugmentationPoint": {
+      "type": "element",
+      "documentation": [
+        "An augmentation point for FacilityType."
+      ],
+      "facets": []
+    },
+    "FacilityIdentification": {
+      "type": "element",
+      "documentation": [
+        "An identification assigned to a facility."
+      ],
+      "facets": []
+    },
+    "FacilityName": {
+      "type": "element",
+      "documentation": [
+        "A name of a facility."
+      ],
+      "facets": []
+    },
+    "GeographicCoordinateLatitude": {
+      "type": "element",
+      "documentation": [
+        "A measurement of the angular distance between a point on the Earth and the Equator."
+      ],
+      "facets": []
+    },
+    "GeographicCoordinateLongitude": {
+      "type": "element",
+      "documentation": [
+        "A measurement of the angular distance between a point on the Earth and the Prime Meridian."
+      ],
+      "facets": []
+    },
+    "IdentificationAugmentationPoint": {
+      "type": "element",
+      "documentation": [
+        "An augmentation point for IdentificationType."
+      ],
+      "facets": []
+    },
+    "IdentificationID": {
+      "type": "element",
+      "documentation": [
+        "An identifier."
+      ],
+      "facets": []
+    },
+    "LatitudeDegreeValue": {
+      "type": "element",
+      "documentation": [
+        "A value that specifies the degree of a latitude. The value comes from a restricted range between -90 (inclusive) and +90 (inclusive)."
+      ],
+      "facets": []
+    },
+    "LengthUnitCode": {
+      "type": "element",
+      "documentation": [
+        "A unit of measure of a length value."
+      ],
+      "facets": []
+    },
+    "Location2DGeospatialCoordinate": {
+      "type": "element",
+      "documentation": [
+        "A location identified by a latitude and longitude."
+      ],
+      "facets": []
+    },
+    "Location2DGeospatialCoordinateAugmentationPoint": {
+      "type": "element",
+      "documentation": [
+        "An augmentation point for Location2DGeospatialCoordinateType."
+      ],
+      "facets": []
+    },
+    "Location3DGeospatialCoordinate": {
+      "type": "element",
+      "documentation": [
+        "A location identified by latitude, longitude, and height."
+      ],
+      "facets": []
+    },
+    "LocationAugmentationPoint": {
+      "type": "element",
+      "documentation": [
+        "An augmentation point for LocationType."
+      ],
+      "facets": []
+    },
+    "LocationElevation": {
+      "type": "element",
+      "documentation": [
+        "A measure of the distance of a point on the Earth from a reference point."
+      ],
+      "facets": []
+    },
+    "LocationGeospatialCoordinate": {
+      "type": "element",
+      "documentation": [
+        "A data concept for a geospatial location."
+      ],
+      "facets": []
+    },
+    "LocationHeight": {
+      "type": "element",
+      "documentation": [
+        "A data concept for a measure of the height of a location."
+      ],
+      "facets": []
+    },
+    "LocationHeightVerticalDatum": {
+      "type": "element",
+      "documentation": [
+        "A data concept for a vertical datum system used to designate the reference point for a height measurement."
+      ],
+      "facets": []
+    },
+    "LocationHeightVerticalDatumCode": {
+      "type": "element",
+      "documentation": [
+        "A code that describes the relationship of a two- or three-dimensional coordinate system to the shape of the Earth."
+      ],
+      "facets": []
+    },
+    "LocationHeightVerticalDatumText": {
+      "type": "element",
+      "documentation": [
+        "A vertical datum system used to designate the reference point for a height measurement."
+      ],
+      "facets": []
+    },
+    "LongitudeDegreeValue": {
+      "type": "element",
+      "documentation": [
+        "A value that specifies the degree of a longitude. The value comes from a restricted range between -180 (inclusive) and +180 (exclusive)."
+      ],
+      "facets": []
+    },
+    "MeasureIntegerValue": {
+      "type": "element",
+      "documentation": [
+        "An integer measurement value."
+      ],
+      "facets": []
+    },
+    "MeasurePoint": {
+      "type": "element",
+      "documentation": [
+        "A data concept for a measurement value."
+      ],
+      "facets": []
+    },
+    "MeasureUnit": {
+      "type": "element",
+      "documentation": [
+        "A data concept for a unit of measure of a measurement value."
+      ],
+      "facets": []
+    },
+    "MeasureValue": {
+      "type": "element",
+      "documentation": [
+        "A data concept for a measurement value."
+      ],
+      "facets": []
+    },
+    "StartDate": {
+      "type": "element",
+      "documentation": [
+        "A date on which something begins."
+      ],
+      "facets": []
+    },
+    "Status": {
+      "type": "element",
+      "documentation": [
+        "A state of something or someone."
+      ],
+      "facets": []
+    },
+    "StatusCommentText": {
+      "type": "element",
+      "documentation": [
+        "A comment regarding a status."
+      ],
+      "facets": []
+    },
+    "SystemIdentificationAugmentationPoint": {
+      "type": "element",
+      "documentation": [
+        "An augmentation point for SystemIdentificationType."
+      ],
+      "facets": []
+    },
+    "SystemName": {
+      "type": "element",
+      "documentation": [
+        "A name of the kind or the source of a system identifier."
+      ],
+      "facets": []
+    }
+  }
+}
