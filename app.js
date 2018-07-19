@@ -38,7 +38,7 @@ function validateJson (jsonString, xmlSchemaFile) {
   return(prettyJson);
 }
 
-function extractContent (xmlSchemaFile, saxonJarFile, targetDir) {
+function extractContent (xmlSchemaFile, targetDir, saxonJarFile) {
   let content = ""
   console.log("  [INFO] start: " + xmlSchemaFile);
   const child = spawn("bash", [ SCRIPT_FILE, xmlSchemaFile, saxonJarFile, XSL_FILE ], { shell: true } );
@@ -66,7 +66,7 @@ function extractContent (xmlSchemaFile, saxonJarFile, targetDir) {
       console.log("  [INFO] completed: " + xmlSchemaFile)
     } else {
       console.log("  [WARNING] failed to extract: " + xmlSchemaFile);
-      writeFile(xmlSchemaFile, targetDir, stdout);
+      writeFile(xmlSchemaFile, targetDir, content);
     }
   });
 
@@ -102,33 +102,36 @@ function getSourceFileList (sourceFile) {
   }
 }
 
-function startApp (argv) {
-  let sourceFile = argv[0]
-  let saxonJarFile = argv[1]
-  let targetDir = argv[2]
+//function startApp (argv) {
+function startApp (sourceFile, targetDir, saxonJarFile) {
+  //let sourceFile = argv[0]
+  //let targetDirArg = argv[1]
+  // targetDirParsed = targetDir.substring(0, targetDir.length - 1)
   var sourceFileList = getSourceFileList(sourceFile);
   if (typeof sourceFileList != "undefined") {
-    if (typeof sourceFileList.schemaSourceFileList != "undefined") 
-      var targetFolderName = targetDir.substring(targetDir.lastIndexOf('/') + 1);
+    if (typeof sourceFileList.schemaSourceFileList != "undefined")
+      // targetDirParsed = targetDir.substring(0, targetDir.length - 1)
+      var targetFolderName = targetDir.substring(0, targetDir.lastIndexOf('/') + 1);
       var schemaSourceFileListItemPathSplit;
-      var targetDirSuffix;
+      var targetDirSuffix = "";
 
       sourceFileList.schemaSourceFileList.forEach(function(schemaSourceFileListItem) {
         schemaSourceFileListItemPathSplit = schemaSourceFileListItem.split(targetFolderName);
-        if (schemaSourceFileListItemPathSplit.length == 2) {
-          targetDirSuffix = schemaSourceFileListItemPathSplit[1].substring(0, schemaSourceFileListItemPathSplit[1].lastIndexOf('/'));
-          extractContent(schemaSourceFileListItem, saxonJarFile, targetDir + targetDirSuffix)
-        } else
-          console.log("  [ERROR] unable to parse target suffix path for schemaSourceFileListItem: " + schemaSourceFileListItem);
+        //if (schemaSourceFileListItemPathSplit.length == 2) {
+        if (schemaSourceFileListItemPathSplit.length == 2)
+          targetDirSuffix = schemaSourceFileListItemPathSplit[1].substring(0, schemaSourceFileListItemPathSplit[1].lastIndexOf('/'));          
+        extractContent(schemaSourceFileListItem, targetDir + targetDirSuffix, saxonJarFile)
+        //} else
+        //  console.log("  [ERROR] unable to parse target suffix path for schemaSourceFileListItem: " + schemaSourceFileListItem);
       }, this)
 
   } else
-    extractContent(sourceFile, saxonJarFile, targetDir)
+    extractContent(sourceFile, targetDir, saxonJarFile)
 }
  
 function help() {
-  console.log("\n  usage:", process.argv[0], process.argv[1], "source-file saxon-jar-file target-dir");
-  console.log("\n  example: node app.js source\/file.xsd /opt/saxonica/Saxon9he.jar target\/dir\n");
+  console.log("\n  usage:", process.argv[0], process.argv[1], "source-file target-dir saxon-jar-file");
+  console.log("\n  example: node app.js source\/file.xsd target\/dir /opt/saxonica/Saxon9he.jar\n");
 }
 
 function hasValidArgs(argv) {
@@ -175,9 +178,17 @@ function hasValidArgs(argv) {
 }
 
 var argv = process.argv.slice(2);
-if (hasValidArgs(argv))
-  startApp(argv)
-else {
+if (hasValidArgs(argv)) {
+  var sourceFile = argv[0]
+  var targetDir
+  if (argv[1].slice(-1) != '/') 
+    targetDir = argv[1] + '/'
+  else
+    targetDir = argv[1]
+  var saxonJarFile = argv[2]
+  //startApp(argv)
+  startApp(sourceFile, targetDir, saxonJarFile)
+} else {
   help();
   process.exit(-1);
 };

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://ns.saxonica.com/xslt/export" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vv="http://saxon.sf.net/generated-variable" xmlns:java-type="http://saxon.sf.net/java-type" version="30" packageVersion="1" saxonVersion="9.7.0.18" timeStamp="2018-04-25T11:17:23.408-07:00">
+<package xmlns="http://ns.saxonica.com/xslt/export" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vv="http://saxon.sf.net/generated-variable" xmlns:java-type="http://saxon.sf.net/java-type" version="30" packageVersion="1" saxonVersion="9.7.0.18" timeStamp="2018-07-19T11:44:35.246-07:00">
  <co id="0" binds="">
-  <globalVariable name="Q{http://saxon.sf.net/generated-variable}gg1312381159" type="xs:string" line="296" module="file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./lib/extract-xml-schema-content.xsl" visibility="PRIVATE">
+  <globalVariable name="Q{}xsltVersion" type="xs:string" line="12" module="file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./lib/extract-xml-schema-content.xsl" visibility="PRIVATE">
+   <str val="1.2.1"/>
+  </globalVariable>
+ </co>
+ <co id="1" binds="">
+  <globalVariable name="Q{}xsltName" type="xs:string" line="11" module="file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./lib/extract-xml-schema-content.xsl" visibility="PRIVATE">
+   <str val="extract-xml-schema-content.xsl"/>
+  </globalVariable>
+ </co>
+ <co id="2" binds="">
+  <globalVariable name="Q{http://saxon.sf.net/generated-variable}gg954702563" type="xs:string" line="296" module="file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./lib/extract-xml-schema-content.xsl" visibility="PRIVATE">
    <convert vn="31" baseUri="file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./lib/extract-xml-schema-content.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform fn=http://www.w3.org/2005/xpath-functions oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="296" from="xs:dateTime" to="xs:string">
     <fn name="current-dateTime"/>
    </convert>
   </globalVariable>
  </co>
- <co id="1" binds="">
-  <globalVariable name="Q{}xsltVersion" type="xs:string" line="12" module="file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./lib/extract-xml-schema-content.xsl" visibility="PRIVATE">
-   <str val="1.2.0"/>
-  </globalVariable>
- </co>
- <co id="2" binds="">
-  <globalVariable name="Q{}xsltName" type="xs:string" line="11" module="file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./lib/extract-xml-schema-content.xsl" visibility="PRIVATE">
-   <str val="extract-xml-schema-content"/>
-  </globalVariable>
- </co>
- <co id="3" binds="3 3 3 3 0 3 3 3 3 3 3 3 3 3 3 3 3 3">
+ <co id="3" binds="3 3 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3">
   <mode onNo="TC" flags="dW" patternSlots="0">
    <templateRule prec="0" prio="0.5" seq="17" rank="2" minImp="0" slots="0" flags="os" line="223" module="file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./lib/extract-xml-schema-content.xsl">
     <p.withUpper role="match" axis="parent" upFirst="false">
@@ -259,19 +259,19 @@
       <str val="&#34;,&#xA;    &#34;dateModified&#34;: {&#xA;      &#34;@id&#34;: &#34;http://schema.org/dateModified&#34;&#xA;    },&#xA;    &#34;code&#34;: {&#xA;      &#34;@id&#34;: &#34;http://schema.org/Code&#34;&#xA;    }&#xA;  },&#xA;  &#34;dateModified&#34;: &#34;"/>
      </valueOf>
      <valueOf line="296">
-      <gVarRef name="Q{http://saxon.sf.net/generated-variable}gg1312381159" bSlot="4"/>
+      <gVarRef name="Q{http://saxon.sf.net/generated-variable}gg954702563" bSlot="4"/>
      </valueOf>
      <valueOf>
       <str val="&#34;, &#34;code&#34;: {&#xA;    &#34;name&#34;: &#34;"/>
      </valueOf>
      <valueOf line="298" flags="S">
-      <str val="extract-xml-schema-content"/>
+      <str val="extract-xml-schema-content.xsl"/>
      </valueOf>
      <valueOf>
       <str val="&#34;, &#34;version&#34;: &#34;"/>
      </valueOf>
      <valueOf line="299" flags="S">
-      <str val="1.2.0"/>
+      <str val="1.2.1"/>
      </valueOf>
      <valueOf>
       <str val="&#34; },  "/>
@@ -454,7 +454,7 @@
         <data>
          <axis name="attribute" nodeTest="attribute(Q{}name)"/>
         </data>
-        <str val=".type"/>
+        <str val="_type"/>
        </fn>
       </valueOf>
       <true/>
@@ -566,12 +566,23 @@
     <p.nodeTest role="match" test="*:restriction"/>
     <sequence role="action" vn="31" baseUri="file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./lib/extract-xml-schema-content.xsl" ns="xsl=http://www.w3.org/1999/XSL/Transform fn=http://www.w3.org/2005/xpath-functions oxd=http://www.oxygenxml.com/ns/doc/xsl xs=http://www.w3.org/2001/XMLSchema" line="174">
      <choose>
-      <fn name="exists">
-       <slash simple="1">
-        <dot type="*:restriction"/>
-        <axis name="preceding-sibling" nodeTest="*:restriction"/>
-       </slash>
-      </fn>
+      <or op="or">
+       <fn name="exists">
+        <slash simple="1">
+         <dot type="*:restriction"/>
+         <axis name="preceding-sibling" nodeTest="*:restriction"/>
+        </slash>
+       </fn>
+       <fn name="exists">
+        <slash>
+         <slash simple="1">
+          <dot type="*:restriction"/>
+          <axis name="preceding-sibling" nodeTest="*:annotation"/>
+         </slash>
+         <axis name="child" nodeTest="*:documentation"/>
+        </slash>
+       </fn>
+      </or>
       <valueOf>
        <str val=", "/>
       </valueOf>
@@ -1087,4 +1098,4 @@
  </output>
  <decimalFormat decimal-separator="46" grouping-separator="44" digit="35" minus-sign="45" percent="37" per-mille="8240" zero-digit="48" exponent-separator="101" pattern-separator="59" infinity="Infinity" NaN="NaN"/>
 </package>
-<?Σ b42cc716?>
+<?Σ c6a84643?>

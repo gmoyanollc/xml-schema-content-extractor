@@ -9,7 +9,7 @@
   <xsl:output indent="yes" method="text"/>
   
   <xsl:variable name="xsltName" select="'extract-xml-schema-content.xsl'"/>
-  <xsl:variable name="xsltVersion" select="'1.2.0'"/>
+  <xsl:variable name="xsltVersion" select="'1.2.1'"/>
   
   <oxd:doc scope="stylesheet">
     <oxd:desc>
@@ -171,7 +171,7 @@
   </xsl:template>
   
   <xsl:template match="*:restriction">
-    <xsl:if test="preceding-sibling::*:restriction">, </xsl:if>
+    <xsl:if test="preceding-sibling::*:restriction | preceding-sibling::*:annotation/*:documentation">, </xsl:if>
     <!--<xsl:if test="preceding-sibling::*">, </xsl:if>-->
     <xsl:if test="@base">
       <xsl:text>"baseType": "</xsl:text>
