@@ -1,6 +1,6 @@
 {
   "@context": {
-    "@id": "file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/./sample/xml-schema/niem-core/3.0/niem-core.xsd",
+    "@id": "file:/run/media/g/g-dev-tsoa.img.disk/g-dev-tsoa/xml-schema-content-extractor/sample/xml-schema/niem-core/3.0/niem-core.xsd",
     "dateModified": {
       "@id": "http://schema.org/dateModified"
     },
@@ -8,10 +8,10 @@
       "@id": "http://schema.org/Code"
     }
   },
-  "dateModified": "2018-07-19T16:50:10.799-07:00",
+  "dateModified": "2018-07-20T12:31:57.668-07:00",
   "code": {
     "name": "extract-xml-schema-content.xsl",
-    "version": "1.2.1"
+    "version": "1.3.0"
   },
   "schemaUri": "http://release.niem.gov/niem/niem-core/3.0/",
   "schemaPrefixNamespaceKey": [

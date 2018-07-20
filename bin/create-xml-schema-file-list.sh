@@ -41,7 +41,7 @@ fi
 #NIEM_DOMAINS_DIR=$(find niem/domains -name "*.xsd" | tr "\n" " " | sed 's/ /", "/g')
 #NIEM_NIEM_CORE_DIR=$(find niem/niem-core -name "*.xsd" | tr "\n" " " | sed 's/ /", "/g')
 #NIEM_STRUCTURES_DIR=$(find niem/structures -name "*.xsd" | tr "\n" " " | sed 's/ /", "/g')
-source_file_list=$(find "${source_path}" -name "*.xsd" | tr "\n" " " | sed 's/ /", "/g')
+source_file_list=$(find "${source_path}" -name "*.xsd" | sort | tr "\n" " " | sed 's/ /", "/g')
 #g echo -e "\n${source_file_list}\n"
 #FILE_LIST='"'${EXTENSION_DIR}${NIEM_CODES_DIR}${NIEM_DOMAINS_DIR}${NIEM_NIEM_CORE_DIR}${NIEM_STRUCTURES_DIR}${NIEM_STRUCTURES_DIR:0:${#NNIEM_STRUCTURES_DIR}-3}
 file_list='"'"${source_file_list:0:-3}"
